@@ -19,7 +19,7 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, App.SM_WIDTH, App.SM_HEIGHT));
         LoginController controller = loader.getController();
         primaryStage.setOnCloseRequest(e -> controller.close());
-        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/icon.png")));
+        primaryStage.getIcons().add(App.icon);
         primaryStage.show();
     }
 

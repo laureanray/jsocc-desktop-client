@@ -1,6 +1,7 @@
 package com.fozf.jsocc.controllers;
 
 import com.fozf.jsocc.utils.App;
+import com.fozf.jsocc.utils.Server;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,9 +11,9 @@ import javafx.scene.image.Image;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class LoginController {
     @FXML
@@ -23,6 +24,15 @@ public class LoginController {
 
     @FXML
     public Hyperlink registerLink;
+
+    @FXML
+    public Text serverStatus;
+
+    @FXML
+    public Hyperlink checkLink;
+
+    // This class timer
+    private Timer timer = new Timer();
 
     public LoginController(){
         System.out.println("Constructor");
@@ -36,15 +46,14 @@ public class LoginController {
         loginButton.setOnAction(e -> {
             System.out.println("Login Button");
             try {
-                URL url = new File("src/com/fozf/resources/exercise.fxml").toURI().toURL();
-                FXMLLoader loader = new FXMLLoader(url);
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/exercise.fxml"));
                 Scene scene = new Scene(loader.load(), App.WINDOW_WIDTH, App.WINDOW_HEIGHT);
                 Stage stage = new Stage();
                 stage.setTitle("Dashboard");
                 stage.setScene(scene);
                 ExerciseController exerciseController = loader.getController();
                 exerciseController.setStage(stage);
-                stage.getIcons().add(new Image(getClass().getResourceAsStream("images/icon.png")));
+                stage.getIcons().add(App.icon);
                 stage.show();
 
 
@@ -58,12 +67,11 @@ public class LoginController {
         registerLink.setOnAction(e -> {
             System.out.println("Register clicked");
             try {
-                URL url = new File("src/com/fozf/resources/register.fxml").toURI().toURL();
-                Scene scene = new Scene(FXMLLoader.load(url), App.SM_WIDTH, App.SM_HEIGHT);
+                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/fxml/register.fxml")), App.SM_WIDTH, App.SM_HEIGHT);
                 Stage stage = new Stage();
                 stage.setTitle("Register");
                 stage.setScene(scene);
-                stage.getIcons().add(new Image(getClass().getResourceAsStream("images/icon.png")));
+                stage.getIcons().add(App.icon);
                 stage.show();
 
 //                ((Node)(e.getSource())).getScene().getWindow().hide();
@@ -72,6 +80,33 @@ public class LoginController {
                 err.printStackTrace();
             }
         });
+
+        TimerTask checkServerConnection = new TimerTask(){
+            public void run(){
+                if(Server.checkServer()){
+                    serverStatus.setText("Ok");
+                    checkLink.setVisible(false);
+                }else{
+                    serverStatus.setText("No connection.");
+                    checkLink.setVisible(true);
+                }
+            }
+        };
+
+        checkLink.setOnAction(e -> {
+            checkLink.setVisible(false);
+            serverStatus.setText("Checking...");
+            if(Server.checkServer()){
+                serverStatus.setText("Ok");
+            }else{
+                serverStatus.setText("No connection.");
+                checkLink.setVisible(true);
+            }
+        });
+
+
+
+        timer.schedule(checkServerConnection, 500L);
     }
 
     public void close(){

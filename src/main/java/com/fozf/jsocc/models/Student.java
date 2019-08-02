@@ -1,18 +1,24 @@
 package com.fozf.jsocc.models;
 
+import javax.xml.bind.annotation.XmlRootElement;
+@XmlRootElement
 public class Student {
+    private long id;
     private String firstName;
     private String lastName;
     private String email;
     private String password;
     private String username;
 
-    public Student(String firstName, String lastName, String email, String password, String username) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.username = username;
+    public Student() {
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getFirstName() {

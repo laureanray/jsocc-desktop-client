@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="400.0" xmlns:fx="http://javafx.com/fxml/1"  fx:controller="com.fozf.jsocc.controllers.LoginController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="400.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fozf.jsocc.controllers.LoginController">
    <top>
       <VBox prefHeight="77.0" prefWidth="400.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
@@ -59,6 +59,8 @@
           <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="240.0" minHeight="10.0" prefHeight="139.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="240.0" minHeight="10.0" prefHeight="139.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
@@ -73,6 +75,12 @@
             <PasswordField fx:id="password" promptText="Password" GridPane.columnIndex="2" GridPane.rowIndex="2" />
             <Button fx:id="loginButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="241.0" text="Sign In" GridPane.columnIndex="2" GridPane.rowIndex="3" />
             <Hyperlink fx:id="registerLink" text="Don't have an account? Click here." GridPane.columnIndex="2" GridPane.rowIndex="4" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Server Status" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Text fx:id="serverStatus" strokeType="OUTSIDE" strokeWidth="0.0" text="Checking" GridPane.columnIndex="2" GridPane.rowIndex="5">
+               <GridPane.margin>
+                  <Insets left="4.0" />
+               </GridPane.margin></Text>
+            <Hyperlink visible="false" fx:id="checkLink" text="Check" GridPane.columnIndex="2" GridPane.rowIndex="6" />
          </children>
       </GridPane>
    </center>
