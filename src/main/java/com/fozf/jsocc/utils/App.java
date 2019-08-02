@@ -1,5 +1,6 @@
 package com.fozf.jsocc.utils;
 
+import com.fozf.jsocc.models.Student;
 import javafx.scene.image.Image;
 
 public class App {
@@ -10,4 +11,6 @@ public class App {
     public static int SM_WIDTH = 400;
     public static int SM_HEIGHT = 500;
     public static Image icon = new Image(App.class.getResourceAsStream("/images/icon.png"));
+    public static Student student;
+    public static boolean isStudent = true;
 }

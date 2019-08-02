@@ -2,6 +2,7 @@ package com.fozf.jsocc.utils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fozf.jsocc.models.LoginForm;
 import com.fozf.jsocc.models.Student;
 
 import javax.ws.rs.client.Client;
@@ -49,7 +50,15 @@ public class StudentRest {
 
     public static Response addStudent(Student student){
         return client.target(REST_URI)
+                .path("/register")
                 .request(MediaType.APPLICATION_JSON)
                 .post(Entity.entity(student, MediaType.APPLICATION_JSON));
+    }
+
+    public static Response login(LoginForm loginForm){
+        return client.target(REST_URI)
+                .path("/login")
+                .request(MediaType.APPLICATION_JSON)
+                .post(Entity.entity(loginForm, MediaType.APPLICATION_JSON));
     }
 }

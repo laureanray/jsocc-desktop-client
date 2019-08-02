@@ -15,6 +15,8 @@ import org.loadui.testfx.GuiTest;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
 
+import java.io.IOException;
+
 import static org.junit.Assert.*;
 
 
@@ -39,6 +41,15 @@ public class MainTest extends ApplicationTest {
         FxToolkit.hideStage();
         release(new KeyCode[]{});
         release(new MouseButton[]{});
+    }
+
+    @Test
+    public void mustLogin() throws IOException {
+        clickOn("#username");
+        write("laureanray");
+        press(KeyCode.TAB);
+        write("P@$$w0rd");
+        press(KeyCode.ENTER);
     }
 
     @Test
@@ -93,8 +104,8 @@ public class MainTest extends ApplicationTest {
         clickOn("#lastName");
         write("Bahala");
         clickOn("#email");
-        write("lrs.bahala@iskolarngbayan.pup.edu.ph");
-        clickOn("#username");
+        write("laureanraybahala@gmail.com");
+        press(KeyCode.TAB);
         write("laureanray");
         clickOn("#password");
         write("P@$$w0rd");
@@ -109,5 +120,7 @@ public class MainTest extends ApplicationTest {
             throw new NullPointerException();
         }
     }
+
+
 
 }
