@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.junit.After;
 import org.junit.Before;
@@ -14,16 +15,22 @@ import org.junit.Test;
 import org.loadui.testfx.GuiTest;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
+import org.testfx.util.WaitForAsyncUtils;
 
-import java.io.IOException;
+import java.util.NoSuchElementException;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 
 public class MainTest extends ApplicationTest {
     @Override
     public void start (Stage stage) throws Exception {
-        FXMLLoader loader =  new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
+        FXMLLoader loader =  new FXMLLoader(getClass().getResource("/fxml/Login.fxml"));
         Parent root = loader.load();
         stage.setTitle(App.name);
         stage.setScene(new Scene(root, App.SM_WIDTH, App.SM_HEIGHT));
@@ -44,12 +51,13 @@ public class MainTest extends ApplicationTest {
     }
 
     @Test
-    public void mustLogin() throws IOException {
+    public void mustLogin() {
         clickOn("#username");
         write("laureanray");
         press(KeyCode.TAB);
         write("P@$$w0rd");
         press(KeyCode.ENTER);
+
     }
 
     @Test
@@ -72,28 +80,32 @@ public class MainTest extends ApplicationTest {
     }
 
     @Test
-    public void mustShowErrorIfPasswordsArentTheSame() {
+    public void mustShowErrorIfPasswordsArentTheSame() throws InterruptedException {
         showRegisterWindow();
         clickOn("#firstName");
         write("Laurean Ray");
         clickOn("#lastName");
         write("Bahala");
-        clickOn("#email");
-        write("lrs.bahala@iskolarngbayan.pup.edu.ph");
-        clickOn("#username");
+        clickOn("#email").
+        write("a@domain.com");
+        press(KeyCode.TAB);
         write("laureanray");
+        moveTo("#password");
         clickOn("#password");
-        write("P@$$w0rd");
+        write("asd");
         clickOn("#confirmPassword");
-        write("P@$$w0rdd");
+        write("asqdz");
         clickOn("#registerBtn");
 
-        Stage stage = GuiTest.findStageByTitle("Error");
 
-        if(stage == null)
-        {
-            throw new NullPointerException();
+        Text text = (Text) GuiTest.find("#errorText");
+
+        if(text == null){
+            throw new RuntimeException();
         }
+
+        assertThat(text.getText(), is("Passwords don't match."));
+
     }
 
     @Test
@@ -119,7 +131,34 @@ public class MainTest extends ApplicationTest {
         {
             throw new NullPointerException();
         }
+
     }
+
+    @Test
+    public void mustSuccessfullyRegisterInstructor() throws Exception {
+        showRegisterWindow();
+        clickOn("#firstName");
+        write("Arvin");
+        clickOn("#lastName");
+        write("Dela Cruz");
+        clickOn("#email");
+        write("dasdsa@gmail.com");
+        press(KeyCode.TAB);
+        write("aasdd");
+        clickOn("#password");
+        write("P@$$w0rd");
+        clickOn("#confirmPassword");
+        write("P@$$w0rd");
+        clickOn("#registerBtn");
+
+        // Wait for atleast 2 seconds.
+        sleep(2, TimeUnit.SECONDS);
+
+        GuiTest.findStageByTitle("Success");
+    }
+//    private void delay(int milliseconds) throws InterruptedException {
+//        TimeUnit.MILLISECONDS.sleep(milliseconds);
+//    }
 
 
 

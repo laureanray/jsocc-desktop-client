@@ -1,0 +1,33 @@
+.topbar {
+    -fx-background-color: #2ba1ff;
+    -fx-max-height: 50px;
+    -fx-min-height: 50px;
+    -fx-pref-height: 50px;
+    -fx-padding: 10px 15px 10px 15px;
+}
+
+.header_text {
+    -fx-fill: white;
+    -fx-font-size: 18px;
+}
+
+.menu-button {
+    -fx-background-color: transparent;
+    -fx-mark-color: white;
+}
+
+.menu-button:hover {
+    -fx-background-color: #2c84dc;
+}
+
+.menu-item .label {
+    -fx-text-fill: white;
+}
+
+.menu-item:focused {
+    -fx-background-color: darkgray;
+}
+
+.menu-item:focused .label {
+    -fx-text-fill: blue;
+}

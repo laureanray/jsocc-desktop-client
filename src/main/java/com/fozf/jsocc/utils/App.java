@@ -1,7 +1,10 @@
 package com.fozf.jsocc.utils;
-
 import com.fozf.jsocc.models.Student;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.stage.Stage;
+import java.io.IOException;
 
 public class App {
     public static String name = "Java Simulator and Online Code Checker";
@@ -11,6 +14,10 @@ public class App {
     public static int SM_WIDTH = 400;
     public static int SM_HEIGHT = 500;
     public static Image icon = new Image(App.class.getResourceAsStream("/images/icon.png"));
+    public static Image statusGreen = new Image(App.class.getResourceAsStream("/images/green.png"));
+    public static Image statusRed = new Image(App.class.getResourceAsStream("/images/red.png"));
     public static Student student;
     public static boolean isStudent = true;
+
+
 }

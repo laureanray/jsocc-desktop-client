@@ -2,6 +2,7 @@ package com.fozf.jsocc.utils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fozf.jsocc.models.Instructor;
 import com.fozf.jsocc.models.LoginForm;
 import com.fozf.jsocc.models.Student;
 
@@ -14,13 +15,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentRest {
-    private static final String REST_URI = "http://localhost:8080/api/v1/students";
+public class InstructorRest {
+    private static final String REST_URI = "http://localhost:8080/api/v1/instructor";
     private static Client client = ClientBuilder.newClient();
 
-
-
-    public static Student getStudentById(int id){
+    public static Student getInstructorById(int id){
         return client
                 .target(REST_URI)
                 .path(String.valueOf(id))
@@ -28,39 +27,12 @@ public class StudentRest {
                 .get(Student.class);
     }
 
-    public static Student getStudentByUsername(String username){
-        return client
-                .target(REST_URI)
-                .path("find/" + username)
-                .request(MediaType.APPLICATION_JSON)
-                .get(Student.class);
-    }
 
-    public static ArrayList<Student> getStudents() {
-        String response = client
-                .target(REST_URI)
-                .path("")
-                .request(MediaType.APPLICATION_JSON)
-                .get(String.class);
-        ObjectMapper mapper = new ObjectMapper();
-        ArrayList<Student> list = new ArrayList<>();
-
-        try {
-            list = mapper.readValue(response, new TypeReference<List<Student>>() {
-            });
-
-        } catch(IOException e){
-            System.out.println("e");
-        }
-
-        return list;
-    }
-
-    public static Response addStudent(Student student){
+    public static Response addInstructor(Instructor instructor){
         return client.target(REST_URI)
                 .path("/register")
                 .request(MediaType.APPLICATION_JSON)
-                .post(Entity.entity(student, MediaType.APPLICATION_JSON));
+                .post(Entity.entity(instructor, MediaType.APPLICATION_JSON));
     }
 
     public static Response login(LoginForm loginForm){

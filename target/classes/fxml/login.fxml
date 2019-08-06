@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="400.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="com.fozf.jsocc.controllers.LoginController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="400.0"  xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fozf.jsocc.controllers.LoginController">
    <top>
       <VBox prefHeight="77.0" prefWidth="400.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
@@ -78,10 +78,13 @@
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Server Status" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <Text fx:id="serverStatus" strokeType="OUTSIDE" strokeWidth="0.0" text="Checking" GridPane.columnIndex="2" GridPane.rowIndex="5">
                <GridPane.margin>
-                  <Insets left="4.0" />
+                  <Insets left="30.0" />
                </GridPane.margin></Text>
             <Hyperlink fx:id="checkLink" text="Check" visible="false" GridPane.columnIndex="2" GridPane.rowIndex="6" />
-            <Text fx:id="errorText"  visible="false" fill="#c90c0c" strokeType="OUTSIDE" strokeWidth="0.0" text="Error" GridPane.columnIndex="2" />
+            <Text fx:id="errorText" fill="#c90c0c" strokeType="OUTSIDE" strokeWidth="0.0" text="Error" visible="false" GridPane.columnIndex="2" />
+             <ImageView fx:id="statusImage" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true"
+                        GridPane.columnIndex="2" GridPane.rowIndex="5">
+             </ImageView>
          </children>
       </GridPane>
    </center>
