@@ -2,6 +2,7 @@ package com.fozf.jsocc;
 
 import com.fozf.jsocc.controllers.LoginController;
 import com.fozf.jsocc.utils.App;
+import com.github.javafaker.Faker;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -28,6 +29,7 @@ import static org.junit.Assert.*;
 
 
 public class MainTest extends ApplicationTest {
+    Faker faker;
     @Override
     public void start (Stage stage) throws Exception {
         FXMLLoader loader =  new FXMLLoader(getClass().getResource("/fxml/Login.fxml"));
@@ -36,7 +38,9 @@ public class MainTest extends ApplicationTest {
         stage.setScene(new Scene(root, App.SM_WIDTH, App.SM_HEIGHT));
         LoginController controller = loader.getController();
         stage.setOnCloseRequest(e -> controller.close());
+        this.faker = new Faker();
         stage.show();
+
     }
 
     @Before
@@ -50,42 +54,64 @@ public class MainTest extends ApplicationTest {
         release(new MouseButton[]{});
     }
 
-    @Test
-    public void mustLogin() {
-        clickOn("#username");
-        write("laureanray");
-        press(KeyCode.TAB);
-        write("P@$$w0rd");
-        press(KeyCode.ENTER);
-
-    }
-
-    @Test
-    public void typeOnLoginInput () {
-        clickOn("#username");
-        write("This is a test!");
-        clickOn("#password");
-        write("password");
-    }
-
-    @Test
-    public void showRegisterWindow() {
+    private void showRegisterWindow(){
         clickOn("#registerLink");
-        Stage stage = GuiTest.findStageByTitle("Register");
+        sleep(1, TimeUnit.SECONDS);
+        GuiTest.findStageByTitle("Register");
+    }
 
-        if(stage == null)
-        {
-            throw new NullPointerException();
-        }
+    private String usernameGenerator(String firstName, String lastName){
+        return firstName.substring(0, 2).toLowerCase() + lastName.toLowerCase();
+    }
+
+    @Test
+    public void mustRegisterAndLogin(){
+        String fn = faker.name().firstName();
+        String ln = faker.name().lastName();
+        showRegisterWindow();
+        clickOn("#firstName");
+        write(fn);
+        clickOn("#lastName");
+        write(ln);
+        clickOn("#email");
+        write(usernameGenerator(fn, ln) + "@domain.com");
+        press(KeyCode.TAB);
+        write(usernameGenerator(fn, ln));
+        moveTo("#password");
+        clickOn("#password");
+        write("asd");
+        clickOn("#confirmPassword");
+        write("asd");
+        clickOn("#registerBtn");
+        sleep(1, TimeUnit.SECONDS);
+        press(KeyCode.ENTER);
+        sleep(1, TimeUnit.SECONDS);
+        GuiTest.findStageByTitle("Student Dashboard");
+        assertThat(App.isStudent, is(true));
+        assertNotNull(App.student);
+        assertThat(App.student.getFirstName(), is(fn));
+    }
+
+    @Test
+    public void mustShowErrorIfInvalidCredentials(){
+        clickOn("#username");
+        write("asdasd");
+        clickOn("#password");
+        write("asdasdsa");
+        clickOn("#loginButton");
+        sleep(1, TimeUnit.SECONDS);
+        GuiTest.find("#errorText");
     }
 
     @Test
     public void mustShowErrorIfPasswordsArentTheSame() throws InterruptedException {
+        String fn = faker.name().firstName();
+        String ln = faker.name().lastName();
         showRegisterWindow();
         clickOn("#firstName");
-        write("Laurean Ray");
+        write(fn);
         clickOn("#lastName");
-        write("Bahala");
+        write(ln);
         clickOn("#email").
         write("a@domain.com");
         press(KeyCode.TAB);
@@ -97,7 +123,6 @@ public class MainTest extends ApplicationTest {
         write("asqdz");
         clickOn("#registerBtn");
 
-
         Text text = (Text) GuiTest.find("#errorText");
 
         if(text == null){
@@ -108,58 +133,31 @@ public class MainTest extends ApplicationTest {
 
     }
 
-    @Test
-    public void mustSuccessfullyRegisterStudent(){
-        showRegisterWindow();
-        clickOn("#firstName");
-        write("Laurean Ray");
-        clickOn("#lastName");
-        write("Bahala");
-        clickOn("#email");
-        write("laureanraybahala@gmail.com");
-        press(KeyCode.TAB);
-        write("laureanray");
-        clickOn("#password");
-        write("P@$$w0rd");
-        clickOn("#confirmPassword");
-        write("P@$$w0rd");
-        clickOn("#registerBtn");
-
-        Stage stage = GuiTest.findStageByTitle("Success");
-
-        if(stage == null)
-        {
-            throw new NullPointerException();
-        }
-
-    }
 
     @Test
     public void mustSuccessfullyRegisterInstructor() throws Exception {
+        String fn = faker.name().firstName();
+        String ln = faker.name().lastName();
         showRegisterWindow();
         clickOn("#firstName");
-        write("Arvin");
+        write(fn);
         clickOn("#lastName");
-        write("Dela Cruz");
+        write(ln);
         clickOn("#email");
-        write("dasdsa@gmail.com");
+        write(usernameGenerator(fn, ln) + "@gmail.com");
         press(KeyCode.TAB);
-        write("aasdd");
+        write(usernameGenerator(fn, ln));
         clickOn("#password");
         write("P@$$w0rd");
         clickOn("#confirmPassword");
         write("P@$$w0rd");
+        moveTo("#checkbox");
+        clickOn("#checkbox");
         clickOn("#registerBtn");
-
         // Wait for atleast 2 seconds.
         sleep(2, TimeUnit.SECONDS);
 
         GuiTest.findStageByTitle("Success");
     }
-//    private void delay(int milliseconds) throws InterruptedException {
-//        TimeUnit.MILLISECONDS.sleep(milliseconds);
-//    }
-
-
 
 }
