@@ -148,7 +148,6 @@ public class RegisterController {
                             lc.password.setText(password.getText());
                             lc.loginButton.setDisable(false);
                             vb.getStage().show();
-                            lc.loginButton.fire();
 
                         } catch (IOException ex) {
                             ex.printStackTrace();

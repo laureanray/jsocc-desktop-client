@@ -1,4 +1,5 @@
 package com.fozf.jsocc.utils;
+import com.fozf.jsocc.models.Instructor;
 import com.fozf.jsocc.models.Student;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -17,7 +18,9 @@ public class App {
     public static Image statusGreen = new Image(App.class.getResourceAsStream("/images/green.png"));
     public static Image statusRed = new Image(App.class.getResourceAsStream("/images/red.png"));
     public static Student student;
+    public static Instructor instructor;
     public static boolean isStudent = true;
+
 
 
 }

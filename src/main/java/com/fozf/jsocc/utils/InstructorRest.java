@@ -41,4 +41,13 @@ public class InstructorRest {
                 .request(MediaType.APPLICATION_JSON)
                 .post(Entity.entity(loginForm, MediaType.APPLICATION_JSON));
     }
+
+    public static Instructor getInstructorByUsername(String username){
+        return client
+                .target(REST_URI)
+                .path("find/" + username)
+                .request(MediaType.APPLICATION_JSON)
+                .get(Instructor.class);
+    }
+
 }

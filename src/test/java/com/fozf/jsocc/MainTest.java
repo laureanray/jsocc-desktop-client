@@ -29,7 +29,7 @@ import static org.junit.Assert.*;
 
 
 public class MainTest extends ApplicationTest {
-    Faker faker;
+    private Faker faker;
     @Override
     public void start (Stage stage) throws Exception {
         FXMLLoader loader =  new FXMLLoader(getClass().getResource("/fxml/Login.fxml"));
@@ -85,6 +85,9 @@ public class MainTest extends ApplicationTest {
         clickOn("#registerBtn");
         sleep(1, TimeUnit.SECONDS);
         press(KeyCode.ENTER);
+        sleep(1, TimeUnit.SECONDS);
+        moveTo("#loginButton");
+        clickOn("#loginButton");
         sleep(1, TimeUnit.SECONDS);
         GuiTest.findStageByTitle("Student Dashboard");
         assertThat(App.isStudent, is(true));
@@ -158,6 +161,21 @@ public class MainTest extends ApplicationTest {
         sleep(2, TimeUnit.SECONDS);
 
         GuiTest.findStageByTitle("Success");
+    }
+
+    @Test
+    public void mustLoginInstructor() {
+        clickOn("#username");
+        write("doca");
+        clickOn("#password");
+        write("P@$$w0rd");
+        moveTo("#loginButton");
+        clickOn("#loginButton");
+
+        sleep(2, TimeUnit.SECONDS);
+
+        GuiTest.findStageByTitle("Instructor Dashboard");
+
     }
 
 }
