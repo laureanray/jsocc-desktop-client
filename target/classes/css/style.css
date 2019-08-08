@@ -14,6 +14,7 @@
 .menu-button {
     -fx-background-color: transparent;
     -fx-mark-color: white;
+
 }
 
 .menu-button:hover {
@@ -31,3 +32,8 @@
 .menu-item:focused .label {
     -fx-text-fill: blue;
 }
+
+.menu-item .label {
+    -fx-text-fill: #202020;
+}
+
