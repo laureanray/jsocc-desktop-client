@@ -35,8 +35,8 @@
                                  <children>
                                     <VBox prefHeight="29.0" prefWidth="204.0">
                                        <children>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Course TItle" />
-                                          <TextField prefWidth="130.0" text="as">
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Course Title" />
+                                          <TextField fx:id="courseTitle" prefWidth="130.0" text="as">
                                              <VBox.margin>
                                                 <Insets top="5.0" />
                                              </VBox.margin>
@@ -49,7 +49,7 @@
                                     <VBox prefHeight="37.0" prefWidth="99.0">
                                        <children>
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Course Code" />
-                                          <TextField>
+                                          <TextField fx:id="courseCode">
                                              <VBox.margin>
                                                 <Insets top="5.0" />
                                              </VBox.margin>
@@ -63,7 +63,7 @@
                                     <Insets top="10.0" />
                                  </VBox.margin>
                               </Text>
-                              <TextArea prefHeight="200.0" prefWidth="200.0">
+                              <TextArea fx:id="courseDescription" prefHeight="200.0" prefWidth="200.0">
                                  <VBox.margin>
                                     <Insets top="5.0" />
                                  </VBox.margin>
@@ -73,15 +73,15 @@
                                     <Insets top="10.0" />
                                  </VBox.margin>
                               </Text>
-                              <TextField>
+                              <TextField fx:id="enrollmentKey">
                                  <VBox.margin>
                                     <Insets top="5.0" />
                                  </VBox.margin>
                               </TextField>
                               <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <Button mnemonicParsing="false" text="Cancel" />
-                                    <Button mnemonicParsing="false" text="Create Course">
+                                    <Button fx:id="cancelButton" mnemonicParsing="false" text="Cancel" />
+                                    <Button fx:id="createCourseButton" mnemonicParsing="false" text="Create Course">
                                        <HBox.margin>
                                           <Insets left="5.0" />
                                        </HBox.margin>
@@ -96,7 +96,7 @@
                               <Insets />
                            </HBox.margin>
                         </VBox>
-                        <TableView prefHeight="200.0" prefWidth="200.0">
+                        <TableView fx:id="courseTable" prefHeight="200.0" prefWidth="200.0">
                           <columns>
                             <TableColumn prefWidth="75.0" text="Course ID" />
                             <TableColumn prefWidth="75.0" text="C2" />
