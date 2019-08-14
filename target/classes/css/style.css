@@ -37,3 +37,8 @@
     -fx-text-fill: #202020;
 }
 
+.link {
+    -fx-font-size: 16px;
+}
+
+

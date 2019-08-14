@@ -2,18 +2,28 @@ package com.fozf.jsocc.controllers;
 
 import com.fozf.jsocc.utils.App;
 import com.fozf.jsocc.utils.ViewBootstrap;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.MenuButton;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
+import java.security.Key;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -24,15 +34,15 @@ public class InstructorDashboardController {
 
     @FXML
     public MenuButton accountMenu;
-
     @FXML
     public BorderPane rootPane;
-
     @FXML
     public Text accountName;
-
     @FXML
-    public Hyperlink coursesLink;
+    public Hyperlink coursesLink, dashboardLink;
+    @FXML
+    public AnchorPane anchorPane;
+
 
     public InstructorDashboardController(){
         if(App.instructor == null || App.isStudent){
@@ -49,12 +59,16 @@ public class InstructorDashboardController {
         accountName.setText(fullName);
 
         coursesLink.setOnAction(e -> {
-            try {
-                rootPane.setCenter(FXMLLoader.load(getClass().getResource("/fxml/partial/instructorCoursesPartial.fxml")));
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+            changeUI("instructorCoursesPartial");
         });
+
+        dashboardLink.setOnAction(e -> {
+            changeUI("instructorDashboardPartial");
+        });
+
+        //
+
+        dashboardLink.fire();
 
     }
 
@@ -79,6 +93,37 @@ public class InstructorDashboardController {
             }
         });
     }
+
+    void changeUI(String filename){
+        try {
+            Node n = FXMLLoader.load(getClass().getResource("/fxml/partial/"+filename+".fxml"));
+            rootPane.setCenter(n);
+
+            n.translateYProperty().set(100.0);
+            n.opacityProperty().set(0);
+            Timeline timeline = new Timeline();
+
+            List<KeyValue> keyValues = new ArrayList<>();
+            KeyValue kv1 = new KeyValue(n.translateYProperty(), 0, Interpolator.EASE_IN);
+            KeyValue kv2= new KeyValue(n.opacityProperty(), 1, Interpolator.EASE_IN);
+
+            KeyFrame kf1 = new KeyFrame(Duration.seconds(0.3), kv1);
+            KeyFrame kf2 = new KeyFrame(Duration.seconds(0.2), kv2);
+            timeline.getKeyFrames().add(kf1);
+            timeline.getKeyFrames().add(kf2);
+
+;           timeline.play();
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
+
+
+
+
 
 
 
