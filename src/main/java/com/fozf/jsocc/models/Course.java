@@ -1,5 +1,7 @@
 package com.fozf.jsocc.models;
 
+import java.util.Date;
+
 public class Course {
     private long id;
     private String courseTitle;
@@ -7,8 +9,26 @@ public class Course {
     private String courseCode;
     private String enrollmentKey;
     private long instructorId;
+    private Date dateAdded;
+    private Date dateModified;
 
-   public Course(){
+    public Date getDateAdded() {
+        return dateAdded;
+    }
+
+    public void setDateAdded(Date dateAdded) {
+        this.dateAdded = dateAdded;
+    }
+
+    public Date getDateModified() {
+        return dateModified;
+    }
+
+    public void setDateModified(Date dateModified) {
+        this.dateModified = dateModified;
+    }
+
+    public Course(){
 
    }
 

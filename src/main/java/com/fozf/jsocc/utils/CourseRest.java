@@ -32,10 +32,12 @@ public class CourseRest {
     public static List<Course> getCourseByInstructorId(long id){
         return client
                 .target(REST_URI)
-                .path("/findUsingInstructorId/" + String.valueOf(id))
+                .path("/findUsingInstructorId/" + id)
                 .request(MediaType.APPLICATION_JSON)
                 .get(new GenericType<List<Course>>(){});
     }
+
+
 
 
 

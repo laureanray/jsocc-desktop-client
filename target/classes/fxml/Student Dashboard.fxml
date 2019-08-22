@@ -50,13 +50,13 @@
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="header_text" text="Dashboard" />
                   <MenuButton fx:id="accountMenu" mnemonicParsing="false" styleClass="name" text="Accout Name" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
-                    <items>
-                      <MenuItem mnemonicParsing="false" text="Action 1" />
-                      <MenuItem mnemonicParsing="false" text="Action 2" />
-                    </items>
-                     <font>
-                        <Font size="14.0" />
-                     </font>
+                      <items>
+                          <MenuItem mnemonicParsing="false" text="Account Settings" />
+                          <MenuItem fx:id="logoutMenuItem" mnemonicParsing="false" text="Logout" />
+                      </items>
+                      <font>
+                          <Font size="14.0" />
+                      </font>
                   </MenuButton>
                </children>
             </GridPane>

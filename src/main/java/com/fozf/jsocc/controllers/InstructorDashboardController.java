@@ -6,14 +6,12 @@ import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.MenuButton;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
@@ -42,6 +40,8 @@ public class InstructorDashboardController {
     public Hyperlink coursesLink, dashboardLink;
     @FXML
     public AnchorPane anchorPane;
+    @FXML
+    public MenuItem logoutMenuItem;
 
 
     public InstructorDashboardController(){
@@ -66,9 +66,11 @@ public class InstructorDashboardController {
             changeUI("instructorDashboardPartial");
         });
 
-        //
+        logoutMenuItem.setOnAction(this::showLogoutDialog);
 
         dashboardLink.fire();
+
+
 
     }
 
@@ -76,21 +78,7 @@ public class InstructorDashboardController {
         this.stage = stage;
         this.stage.setOnCloseRequest(e -> {
             System.out.println("Closing");
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Exit");
-            alert.setHeaderText("Logging out.");
-            alert.setContentText("Are you sure you want to do this? ");
-            Optional<ButtonType> result  = alert.showAndWait();
-
-            if(result.isPresent() && result.get() == ButtonType.OK){
-                try {
-                    new ViewBootstrap("Login", ViewBootstrap.Size.SMALL).getStage().show();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }else{
-                e.consume();
-            }
+            showLogoutDialog(e);
         });
     }
 
@@ -99,17 +87,17 @@ public class InstructorDashboardController {
             Node n = FXMLLoader.load(getClass().getResource("/fxml/partial/"+filename+".fxml"));
             rootPane.setCenter(n);
 
-            n.translateYProperty().set(100.0);
+//            n.translateYProperty().set(100.0);
             n.opacityProperty().set(0);
             Timeline timeline = new Timeline();
 
             List<KeyValue> keyValues = new ArrayList<>();
-            KeyValue kv1 = new KeyValue(n.translateYProperty(), 0, Interpolator.EASE_IN);
+//            KeyValue kv1 = new KeyValue(n.translateYProperty(), 0, Interpolator.EASE_IN);
             KeyValue kv2= new KeyValue(n.opacityProperty(), 1, Interpolator.EASE_IN);
 
-            KeyFrame kf1 = new KeyFrame(Duration.seconds(0.3), kv1);
+//            KeyFrame kf1 = new KeyFrame(Duration.seconds(0.3), kv1);
             KeyFrame kf2 = new KeyFrame(Duration.seconds(0.2), kv2);
-            timeline.getKeyFrames().add(kf1);
+//            timeline.getKeyFrames().add(kf1);
             timeline.getKeyFrames().add(kf2);
 
 ;           timeline.play();
@@ -124,10 +112,27 @@ public class InstructorDashboardController {
 
 
 
+    private void showLogoutDialog(Event e){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Exit");
+        alert.setHeaderText("Logging out.");
+        alert.setContentText("Are you sure you want to do this? ");
+        Optional<ButtonType> result  = alert.showAndWait();
+
+        if(result.isPresent() && result.get() == ButtonType.OK){
+            try {
+                new ViewBootstrap("Login", ViewBootstrap.Size.SMALL).getStage().show();
+                App.instructor = null;
+                this.stage.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+        }else{
+            e.consume();
+        }
 
 
-
-
-
+    }
 
 }

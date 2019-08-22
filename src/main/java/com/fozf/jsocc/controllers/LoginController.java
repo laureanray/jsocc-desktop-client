@@ -52,8 +52,6 @@ public class LoginController {
         System.out.println("Initialize");
         subtitle.setText(App.name);
 
-
-
         registerLink.setOnAction(e -> {
             System.out.println("Register clicked");
             try {
@@ -87,6 +85,7 @@ public class LoginController {
             checkLink.setVisible(false);
             final boolean[] isServerOk = {false};
             serverStatus.setText("Checking...");
+
             Task<Void> checkServerTask = new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
@@ -94,6 +93,7 @@ public class LoginController {
                     return null;
                 }
             };
+
             checkServerTask.setOnSucceeded(s -> {
                 System.out.println("On Succceed");
                 if(isServerOk[0]){
@@ -105,6 +105,7 @@ public class LoginController {
                     checkLink.setVisible(true);
                 }
             });
+
             checkServerTask.setOnFailed(s -> {
                 System.out.println("Failed");
             });
@@ -239,13 +240,6 @@ public class LoginController {
                     instructorLoginThread.start();
                 }
             });
-
-
-
-
-
-
-
         });
 
         username.setOnKeyReleased(e -> checkInputFields(e.getCode()));
@@ -255,7 +249,8 @@ public class LoginController {
     }
 
     public void close(){
-        System.out.println("Close");
+        // Code cleanup here?
+        System.exit(0);
     }
 
     private void checkInputFields(KeyCode code){

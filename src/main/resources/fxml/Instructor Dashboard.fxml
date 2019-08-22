@@ -34,7 +34,7 @@
             <MenuButton fx:id="accountMenu" mnemonicParsing="false" styleClass="name" text="Accout Name" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
               <items>
                 <MenuItem mnemonicParsing="false" text="Account Settings" />
-                <MenuItem mnemonicParsing="false" text="Logout" />
+                <MenuItem fx:id="logoutMenuItem" mnemonicParsing="false" text="Logout" />
               </items>
                <font>
                   <Font size="14.0" />

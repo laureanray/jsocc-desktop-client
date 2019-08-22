@@ -2,12 +2,14 @@ package com.fozf.jsocc.controllers;
 
 import com.fozf.jsocc.utils.App;
 import com.fozf.jsocc.utils.ViewBootstrap;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -20,6 +22,9 @@ public class StudentDashboardController {
     @FXML
     public MenuButton accountMenu;
 
+    @FXML
+    public MenuItem logoutMenuItem;
+
     public StudentDashboardController(){
         if(App.student == null || !App.isStudent){
             throw new RuntimeException("Must be student to show this dashboard.");
@@ -31,8 +36,7 @@ public class StudentDashboardController {
         System.out.println("Login student: ");
         System.out.println(App.student.getFirstName());
         accountMenu.setText(App.student.getFirstName() + " " + App.student.getLastName());
-
-
+        logoutMenuItem.setOnAction(this::showLogoutDialog);
 
     }
 
@@ -40,24 +44,31 @@ public class StudentDashboardController {
         this.stage = stage;
         this.stage.setOnCloseRequest(e -> {
             System.out.println("Closing");
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Exit");
-            alert.setHeaderText("Logging out.");
-            alert.setContentText("Are you sure you want to do this? ");
-            Optional<ButtonType> result  = alert.showAndWait();
+            showLogoutDialog(e);
+        });
+    }
 
-            if(result.isPresent() && result.get() == ButtonType.OK){
-                try {
-                    new ViewBootstrap("Login", ViewBootstrap.Size.SMALL).getStage().show();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }else{
-                e.consume();
+    private void showLogoutDialog(Event e){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Exit");
+        alert.setHeaderText("Logging out.");
+        alert.setContentText("Are you sure you want to do this? ");
+        Optional<ButtonType> result  = alert.showAndWait();
+
+        if(result.isPresent() && result.get() == ButtonType.OK){
+            try {
+                new ViewBootstrap("Login", ViewBootstrap.Size.SMALL).getStage().show();
+                App.instructor = null;
+                this.stage.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
 
+        }else{
+            e.consume();
+        }
 
-        });
+
     }
 
 

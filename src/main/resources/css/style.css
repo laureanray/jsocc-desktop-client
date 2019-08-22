@@ -39,6 +39,10 @@
 
 .link {
     -fx-font-size: 16px;
+    -fx-underline: false;
 }
 
-
+.link:focused {
+    -fx-text-fill: #2c84dc;
+    -fx-font-weight: bold;
+}
