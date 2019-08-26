@@ -50,8 +50,9 @@ public class InstructorCoursesPartialController {
         populateTable();
 
         try {
-            createCourseView = new ViewBootstrap("CreateCourse", ViewBootstrap.Size.SMALL);
+            createCourseView = new ViewBootstrap("CourseCreate", ViewBootstrap.Size.SMALL);
         } catch (IOException e){
+            e.printStackTrace();
             System.out.println("Unable to load create new courses");
         }
 

@@ -15,6 +15,9 @@ public class Course {
     private Instructor instructor;
     private Date dateAdded;
     private Date dateModified;
+    private Date enrollmentStartDate;
+    private Date enrollmentEndDate;
+
     private List<Exercise> exercises = new ArrayList<>();
 
     public Course(){
@@ -47,6 +50,22 @@ public class Course {
 
     public String getCourseCode() {
         return courseCode;
+    }
+
+    public Date getEnrollmentStartDate() {
+        return enrollmentStartDate;
+    }
+
+    public void setEnrollmentStartDate(Date enrollmentStartDate) {
+        this.enrollmentStartDate = enrollmentStartDate;
+    }
+
+    public Date getEnrollmentEndDate() {
+        return enrollmentEndDate;
+    }
+
+    public void setEnrollmentEndDate(Date enrollmentEndDate) {
+        this.enrollmentEndDate = enrollmentEndDate;
     }
 
     public void setCourseCode(String courseCode) {

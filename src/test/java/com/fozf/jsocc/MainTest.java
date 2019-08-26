@@ -197,6 +197,25 @@ public class MainTest extends ApplicationTest {
         assertThat(tableView, TableViewMatchers.containsRowAtIndex(0));
     }
 
+    @Test
+    public void canCreateNewCourse(){
+        clickOn("#username");
+        write("juan");
+        clickOn("#password");
+        write("P@$$w0rd");
+        moveTo("#loginButton");
+        clickOn("#loginButton");
+        sleep(2, TimeUnit.SECONDS);
+        GuiTest.findStageByTitle("Instructor Dashboard");
+        clickOn("#coursesLink");
+        moveTo("#searchTextField");
+        clickOn("#searchTextField");
+        write("Object");
+        TableView tableView = (TableView) GuiTest.find("#courseTable");
+        assertThat(tableView, TableViewMatchers.containsRowAtIndex(0));
+    }
+
+
 
 
 }
