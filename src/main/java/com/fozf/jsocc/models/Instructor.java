@@ -1,12 +1,23 @@
 package com.fozf.jsocc.models;
 
-public class Instructor {
+import jdk.nashorn.internal.objects.annotations.Getter;
+import jdk.nashorn.internal.objects.annotations.Setter;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+
+
+public class Instructor extends User {
     private long id;
+    private boolean instructor;
     private String firstName;
     private String lastName;
     private String email;
     private String password;
     private String username;
+
+    private List<Course> courses = new ArrayList<>();
 
     public Instructor(){ }
 
@@ -56,5 +67,24 @@ public class Instructor {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
+    }
+
+    @Override
+    public String toString() {
+        return
+        "id: " + this.id  + "\n" +
+        "firstName: " + this.firstName  + "\n" +
+        "lastName: " + this.lastName  + "\n" +
+        "email: " + this.email  + "\n" +
+        "password: " + this.password  + "\n" +
+        "username: " + this.username  + "\n";
     }
 }

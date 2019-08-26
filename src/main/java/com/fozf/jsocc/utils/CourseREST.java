@@ -10,7 +10,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-public class CourseRest {
+public class CourseREST {
     private static final String REST_URI = "http://localhost:8080/api/v1/course";
     private static Client client = ClientBuilder.newClient();
 
@@ -29,10 +29,10 @@ public class CourseRest {
                 .post(Entity.entity(course, MediaType.APPLICATION_JSON));
     }
 
-    public static List<Course> getCourseByInstructorId(long id){
+    public static List<Course> findByInstructorId(long id){
         return client
                 .target(REST_URI)
-                .path("/findUsingInstructorId/" + id)
+                .path("/findByInstructorId/" + id)
                 .request(MediaType.APPLICATION_JSON)
                 .get(new GenericType<List<Course>>(){});
     }

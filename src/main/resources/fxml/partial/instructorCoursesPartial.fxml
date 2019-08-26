@@ -29,7 +29,7 @@
                         <Insets top="10.0" />
                      </VBox.margin>
                   </Text>
-                  <TextField>
+                  <TextField fx:id="searchTextField">
                      <VBox.margin>
                         <Insets bottom="10.0" right="5.0" top="5.0" />
                      </VBox.margin>

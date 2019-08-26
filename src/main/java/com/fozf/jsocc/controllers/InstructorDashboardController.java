@@ -107,11 +107,6 @@ public class InstructorDashboardController {
         }
     }
 
-
-
-
-
-
     private void showLogoutDialog(Event e){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Exit");

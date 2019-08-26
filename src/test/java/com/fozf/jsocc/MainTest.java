@@ -6,6 +6,7 @@ import com.github.javafaker.Faker;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TableView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.text.Text;
@@ -16,6 +17,7 @@ import org.junit.Test;
 import org.loadui.testfx.GuiTest;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
+import org.testfx.matcher.control.TableViewMatchers;
 import org.testfx.util.WaitForAsyncUtils;
 
 import java.util.NoSuchElementException;
@@ -166,7 +168,7 @@ public class MainTest extends ApplicationTest {
     @Test
     public void mustLoginInstructor() {
         clickOn("#username");
-        write("doca");
+        write("juan");
         clickOn("#password");
         write("P@$$w0rd");
         moveTo("#loginButton");
@@ -175,7 +177,26 @@ public class MainTest extends ApplicationTest {
         sleep(2, TimeUnit.SECONDS);
 
         GuiTest.findStageByTitle("Instructor Dashboard");
-
     }
+
+    @Test
+    public void canSearchCourseAndGetCorrectResult(){
+        clickOn("#username");
+        write("juan");
+        clickOn("#password");
+        write("P@$$w0rd");
+        moveTo("#loginButton");
+        clickOn("#loginButton");
+        sleep(2, TimeUnit.SECONDS);
+        GuiTest.findStageByTitle("Instructor Dashboard");
+        clickOn("#coursesLink");
+        moveTo("#searchTextField");
+        clickOn("#searchTextField");
+        write("Object");
+        TableView tableView = (TableView) GuiTest.find("#courseTable");
+        assertThat(tableView, TableViewMatchers.containsRowAtIndex(0));
+    }
+
+
 
 }

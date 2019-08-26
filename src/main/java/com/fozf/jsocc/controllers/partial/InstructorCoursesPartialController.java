@@ -1,17 +1,23 @@
 package com.fozf.jsocc.controllers.partial;
 
-import com.fasterxml.jackson.databind.deser.impl.PropertyValue;
 import com.fozf.jsocc.models.Course;
 import com.fozf.jsocc.utils.App;
-import com.fozf.jsocc.utils.CourseRest;
-import javafx.collections.ObservableList;
+import com.fozf.jsocc.utils.CourseREST;
+import com.fozf.jsocc.utils.ViewBootstrap;
 import javafx.concurrent.Task;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import javax.ws.rs.core.Response;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +29,8 @@ public class InstructorCoursesPartialController {
     public VBox vbox;
     @FXML
     public Button createNewCourseButton, createCourseButton, cancelButton;
+    @FXML
+    public TextField searchTextField;
 //    @FXML
 //    public VBox courseForm;
     @FXML
@@ -33,8 +41,7 @@ public class InstructorCoursesPartialController {
 //    blic TextArea courseDescription;
 
     private List<Course> courseList = new ArrayList<>();
-
-
+    private ViewBootstrap createCourseView = null;
     @FXML
     public void initialize(){
         // Udpate table
@@ -42,11 +49,20 @@ public class InstructorCoursesPartialController {
         initializeTable();
         populateTable();
 
+        try {
+            createCourseView = new ViewBootstrap("CreateCourse", ViewBootstrap.Size.SMALL);
+        } catch (IOException e){
+            System.out.println("Unable to load create new courses");
+        }
+
+
 //        courseForm.setVisible(false);
-//        // Add event listener
-//        createNewCourseButton.setOnAction(e -> {
-//            courseForm.setVisible(true);
-//        });
+        // Add event listener
+        createNewCourseButton.setOnAction(e -> {
+            Stage stage  = createCourseView.getStage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+        });
 //
 //        createCourseButton.setDisable(true);
 //
@@ -118,7 +134,32 @@ public class InstructorCoursesPartialController {
 //            createCourseThread.setDaemon(true);
 //            createCourseThread.start();
 //        });
+        searchTextField.setOnKeyReleased(this::searchTable);
+    }
 
+    private void searchTable(KeyEvent keyEvent) {
+        if(keyEvent.getCode() != KeyCode.ENTER){
+            // if not enter query the table
+            ArrayList<Course> resultList = new ArrayList<>();
+            String searchQuery = searchTextField.getText();
+            if(courseList.size() != 0){
+                for(Course course : courseList){
+                    if(course.getCourseTitle().contains(searchQuery) ||
+                       course.getCourseCode().contains(searchQuery) ||
+                       course.getCourseDescription().contains(searchQuery)){
+                        resultList.add(course);
+                    }
+                }
+            }
+
+            if(resultList.size() != 0){
+                courseTable.getItems().clear();
+                for(Course course : resultList){
+                    System.out.println(course.getCourseTitle());
+                    courseTable.getItems().add(course);
+                }
+            }
+        }
     }
 
 //    private boolean isValidInput() {
@@ -141,33 +182,50 @@ public class InstructorCoursesPartialController {
 
 
     private void initializeTable(){
-        TableColumn<String, Course> column1 = new TableColumn<>("Course ID");
+        TableColumn<String, Course> column1 = new TableColumn<>("ID");
         column1.setCellValueFactory(new PropertyValueFactory<>("id"));
+        column1.prefWidthProperty().bind(courseTable.widthProperty().multiply(0.1));
 
         TableColumn<String, Course> column2 = new TableColumn<>("Course Code");
         column2.setCellValueFactory(new PropertyValueFactory<>("courseCode"));
+        column2.prefWidthProperty().bind(courseTable.widthProperty().multiply(0.15));
 
         TableColumn<String, Course> column3 = new TableColumn<>("Course Title");
         column3.setCellValueFactory(new PropertyValueFactory<>("courseTitle"));
+        column3.prefWidthProperty().bind(courseTable.widthProperty().multiply(0.3));
 
-        TableColumn<String, Course> column5 = new TableColumn<>("Date Added");
-        column5.setCellValueFactory(new PropertyValueFactory<>("dateAdded"));
+        TableColumn<String, Course> column4 = new TableColumn<>("Date Added");
+        column4.setCellValueFactory(new PropertyValueFactory<>("dateAdded"));
+        column4.prefWidthProperty().bind(courseTable.widthProperty().multiply(0.2));
 
-        TableColumn<String, Course> column6 = new TableColumn<>("Date Modified");
-        column6.setCellValueFactory(new PropertyValueFactory<>("dateModified"));
+        TableColumn<String, Course> column5 = new TableColumn<>("Date Modified");
+        column5.setCellValueFactory(new PropertyValueFactory<>("dateModified"));
+        column5.prefWidthProperty().bind(courseTable.widthProperty().multiply(0.2));
+
+        column1.setResizable(false);
+        column2.setResizable(false);
+        column3.setResizable(false);
+        column4.setResizable(false);
+        column5.setResizable(false);
 
         courseTable.getColumns().add(column1);
         courseTable.getColumns().add(column2);
         courseTable.getColumns().add(column3);
+        courseTable.getColumns().add(column4);
         courseTable.getColumns().add(column5);
-        courseTable.getColumns().add(column6);
+
+        //  Set selection moed
+        courseTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
     private void populateTable(){
+
+
+
         Task<Void> getCourseTask = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                courseList = CourseRest.getCourseByInstructorId(App.instructor.getId());
+                courseList = CourseREST.findByInstructorId(App.instructor.getId());
                 return null;
             }
         };
@@ -178,6 +236,21 @@ public class InstructorCoursesPartialController {
                 System.out.println(course.getCourseTitle());
                 courseTable.getItems().add(course);
             }
+
+            ContextMenu contextMenu = new ContextMenu();
+            MenuItem item1 = new MenuItem("Edit");
+            contextMenu.getItems().add(item1);
+
+            courseTable.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if(event.getButton() == MouseButton.SECONDARY){
+                        contextMenu.show(courseTable, event.getScreenX(), event.getScreenY());
+                    }else{
+                        contextMenu.hide();
+                    }
+                }
+            });
         });
 
         getCourseTask.setOnFailed(e -> {

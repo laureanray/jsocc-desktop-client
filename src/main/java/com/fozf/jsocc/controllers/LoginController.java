@@ -3,6 +3,7 @@ package com.fozf.jsocc.controllers;
 import com.fozf.jsocc.models.Instructor;
 import com.fozf.jsocc.models.LoginForm;
 import com.fozf.jsocc.models.Student;
+import com.fozf.jsocc.models.User;
 import com.fozf.jsocc.utils.*;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -38,6 +39,8 @@ public class LoginController {
     public Text errorText;
     @FXML
     public ImageView statusImage;
+
+    private static User user;
 
 
     // This class timer
@@ -130,117 +133,65 @@ public class LoginController {
             lf.setPassword(password.getText());
             lf.setUsername(username.getText());
 
-            final Response[] res = new Response[1];
 
             Task<Void> studentLoginTask = new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
-                    res[0] = StudentRest.login(lf);
+                    user = AuthREST.login(lf);
                     return null;
                 }
             };
 
-            Task<Void> instructorLoginTask = new Task<Void>() {
-                @Override
-                protected Void call() throws Exception {
-                    res[0] = InstructorRest.login(lf);
-                    return null;
-                }
-            };
-
-            final Student[] student = new Student[1];
-            final Instructor[] instructor = new Instructor[1];
-
-            Task<Void> getStudentInfoTask = new Task<Void>() {
-                @Override
-                protected Void call() throws Exception {
-                    student[0] = StudentRest.getStudentByUsername(username.getText());
-                    return null;
-                }
-            };
-
-            Task<Void> getInstructorInfoTask = new Task<Void>() {
-                @Override
-                protected Void call() throws Exception {
-                    instructor[0] = InstructorRest.getInstructorByUsername(username.getText());
-                    return null;
-                }
-            };
-;
-
-            getStudentInfoTask.setOnSucceeded(s -> {
-                App.isStudent = true;
-                App.instructor = null;
-                App.student = student[0];
-                try {
-                    ViewBootstrap vb = new ViewBootstrap("Student Dashboard", ViewBootstrap.Size.LARGE);
-                    vb.getStage().show();
-                    StudentDashboardController studentDashboardController = (StudentDashboardController) vb.getLoader().getController();
-                    studentDashboardController.setStage(vb.getStage());
-                    Stage thisStage = (Stage) loginButton.getScene().getWindow();
-                    thisStage.close();
-                } catch (IOException err) {
-                    System.out.println("Error");
-                    err.printStackTrace();
-                }
-            });
-
-            getInstructorInfoTask.setOnSucceeded(s -> {
-                App.isStudent = false;
-                App.student = null;
-                App.instructor = instructor[0];
-                try {
-                    ViewBootstrap vb = new ViewBootstrap("Instructor Dashboard", ViewBootstrap.Size.LARGE);
-                    vb.getStage().show();
-                    InstructorDashboardController instructorDashboardController = (InstructorDashboardController) vb.getLoader().getController();
-                    instructorDashboardController.setStage(vb.getStage());
-                    Stage thisStage = (Stage) loginButton.getScene().getWindow();
-                    thisStage.close();
-                } catch (IOException err) {
-                    System.out.println("Error");
-                    err.printStackTrace();
-                }
-            });
-
-            Thread studentLoginThread = new Thread(studentLoginTask);
-            Thread instructorLoginThread = new Thread(instructorLoginTask);
-
-            Thread getStudentThread = new Thread(getStudentInfoTask);
-            Thread getInstructorThread = new Thread(getInstructorInfoTask);
-
-            getStudentThread.setDaemon(true);
-            studentLoginThread.setDaemon(true);
-            instructorLoginThread.setDaemon(true);
-            getInstructorThread.setDaemon(true);
-
-            studentLoginThread.start();
-
-            instructorLoginTask.setOnSucceeded(s -> {
-                loginButton.setDisable(false);
-                loginButton.setText("Sign In");
-
-                if(res[0].getStatus() == 200){
-                    // Get instructor information
-                    getInstructorThread.start();
+            studentLoginTask.setOnSucceeded(s -> {
+                ViewBootstrap view = null;
+                if(user.getClass().getSimpleName().equals("Instructor")){
+                    try {
+                        App.isStudent = false;
+                        App.instructor = (Instructor) user;
+                        App.student = null;
+                        view = new ViewBootstrap("Instructor Dashboard", ViewBootstrap.Size.LARGE);
+                        view.getStage().show();
+                        InstructorDashboardController instructorDashboardController = (InstructorDashboardController) view.getLoader().getController();
+                        instructorDashboardController.setStage(view.getStage());
+                        Stage thisStage = (Stage) loginButton.getScene().getWindow();
+                        thisStage.close();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                 }else{
-                    errorText.setText("Invalid login credentials.");
-                    errorText.setVisible(true);
+                    try {
+                        App.isStudent = true;
+                        App.instructor = null;
+                        App.student = (Student) user;
+                        view = new ViewBootstrap("Student Dashboard", ViewBootstrap.Size.LARGE);
+                        StudentDashboardController studentDashboardController = (StudentDashboardController) view.getLoader().getController();
+                        view.getStage().show();
 
+                        studentDashboardController.setStage(view.getStage());
+                        Stage thisStage = (Stage) loginButton.getScene().getWindow();
+                        thisStage.close();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                 }
+
             });
 
-            studentLoginTask.setOnSucceeded(er -> {
+            studentLoginTask.setOnFailed(event -> {
                 loginButton.setDisable(false);
-                loginButton.setText("Sign In");
-
-                if(res[0].getStatus() == 200){
-                    // Get student information
-                    getStudentThread.start();
-                }else{
-                    instructorLoginThread.start();
-                }
+                loginButton.setText("Login");
+                errorText.setText("Invalid login credentials.");
+                errorText.setVisible(true);
             });
-        });
+
+            Thread loginThread = new Thread(studentLoginTask);
+            // Make this background task
+            loginThread.setDaemon(true);
+            // Start the thread
+            loginThread.start();
+         });
+
+
 
         username.setOnKeyReleased(e -> checkInputFields(e.getCode()));
         password.setOnKeyReleased(e -> checkInputFields(e.getCode()));

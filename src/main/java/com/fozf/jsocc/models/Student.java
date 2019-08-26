@@ -2,13 +2,14 @@ package com.fozf.jsocc.models;
 
 import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
-public class Student {
+public class Student extends User{
     private long id;
     private String firstName;
     private String lastName;
     private String email;
     private String password;
     private String username;
+    private boolean instructor;
 
     public Student() {
     }

@@ -1,36 +1,25 @@
 package com.fozf.jsocc.models;
 
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import java.util.*;
+@XmlRootElement
 public class Course {
     private long id;
     private String courseTitle;
     private String courseDescription;
     private String courseCode;
     private String enrollmentKey;
-    private long instructorId;
+    private Instructor instructor;
     private Date dateAdded;
     private Date dateModified;
-
-    public Date getDateAdded() {
-        return dateAdded;
-    }
-
-    public void setDateAdded(Date dateAdded) {
-        this.dateAdded = dateAdded;
-    }
-
-    public Date getDateModified() {
-        return dateModified;
-    }
-
-    public void setDateModified(Date dateModified) {
-        this.dateModified = dateModified;
-    }
+    private List<Exercise> exercises = new ArrayList<>();
 
     public Course(){
 
-   }
+    }
 
     public long getId() {
         return id;
@@ -72,11 +61,37 @@ public class Course {
         this.enrollmentKey = enrollmentKey;
     }
 
-    public long getInstructorId() {
-        return instructorId;
+    public Instructor getInstructor() {
+        return instructor;
     }
 
-    public void setInstructorId(long instructorId) {
-        this.instructorId = instructorId;
+    public void setInstructor(Instructor instructor) {
+        this.instructor = instructor;
     }
+
+    public Date getDateAdded() {
+        return dateAdded;
+    }
+
+    public void setDateAdded(Date dateAdded) {
+        this.dateAdded = dateAdded;
+    }
+
+    public Date getDateModified() {
+        return dateModified;
+    }
+
+    public void setDateModified(Date dateModified) {
+        this.dateModified = dateModified;
+    }
+
+    public List<Exercise> getExercises() {
+        return exercises;
+    }
+
+    public void setExercises(List<Exercise> exercises) {
+        this.exercises = exercises;
+    }
+
+
 }
