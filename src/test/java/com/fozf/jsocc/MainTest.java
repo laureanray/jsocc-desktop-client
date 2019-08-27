@@ -21,6 +21,7 @@ import org.testfx.matcher.control.TableViewMatchers;
 import org.testfx.util.WaitForAsyncUtils;
 
 import java.util.NoSuchElementException;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Callable;
@@ -199,6 +200,7 @@ public class MainTest extends ApplicationTest {
 
     @Test
     public void canCreateNewCourse(){
+        Random random = new Random();
         clickOn("#username");
         write("juan");
         clickOn("#password");
@@ -213,6 +215,23 @@ public class MainTest extends ApplicationTest {
         write("Object");
         TableView tableView = (TableView) GuiTest.find("#courseTable");
         assertThat(tableView, TableViewMatchers.containsRowAtIndex(0));
+        moveTo("#createNewCourseButton");
+        clickOn("#createNewCourseButton");
+
+        clickOn("#courseTitle");
+        write("Basic Programming in Java");
+        clickOn("#courseCode");
+        write("COEN" + random.nextInt() );
+        clickOn("#courseDescription");
+        write("Test");
+        clickOn("#enrollmentKey");
+        write("1234");
+        clickOn("#enrollmentKeyConfirm");
+        write("1234");
+//        clickOn("startDate");
+//        write()
+
+
     }
 
 

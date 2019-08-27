@@ -36,7 +36,7 @@
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <children>
-                  <TextField fx:id="courseName" accessibleText="First Name" prefHeight="25.0" prefWidth="281.0" promptText="Course Name">
+                  <TextField fx:id="courseTitle" accessibleText="First Name" prefHeight="25.0" prefWidth="281.0" promptText="Course Title">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>

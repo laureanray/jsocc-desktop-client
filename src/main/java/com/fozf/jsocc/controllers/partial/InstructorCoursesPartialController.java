@@ -1,5 +1,6 @@
 package com.fozf.jsocc.controllers.partial;
 
+import com.fozf.jsocc.controllers.CreateCourseController;
 import com.fozf.jsocc.models.Course;
 import com.fozf.jsocc.utils.App;
 import com.fozf.jsocc.utils.CourseREST;
@@ -35,6 +36,8 @@ public class InstructorCoursesPartialController {
 //    public VBox courseForm;
     @FXML
     public TableView courseTable;
+
+    private Stage stage;
 //    @FXML
 //    public TextField courseTitle, enrollmentKey, courseCode;
 //    @FXML
@@ -49,92 +52,24 @@ public class InstructorCoursesPartialController {
         initializeTable();
         populateTable();
 
+
         try {
             createCourseView = new ViewBootstrap("CourseCreate", ViewBootstrap.Size.SMALL);
+            stage  = createCourseView.getStage();
+            stage.setOnCloseRequest(ev -> stage.close());
+            CreateCourseController controller = createCourseView.getLoader().getController();
+            controller.setController(this);
+            stage.initModality(Modality.APPLICATION_MODAL);
         } catch (IOException e){
             e.printStackTrace();
             System.out.println("Unable to load create new courses");
         }
 
-
-//        courseForm.setVisible(false);
-        // Add event listener
         createNewCourseButton.setOnAction(e -> {
-            Stage stage  = createCourseView.getStage();
-            stage.initModality(Modality.APPLICATION_MODAL);
+
             stage.showAndWait();
         });
-//
-//        createCourseButton.setDisable(true);
-//
-//        courseTitle.setOnKeyReleased(e -> {
-//            if(isValidInput()){
-//                createCourseButton.setDisable(false);
-//            }
-//        });
-//
-//        courseDescription.setOnKeyReleased(e -> {
-//            if(isValidInput()){
-//                createCourseButton.setDisable(false);
-//            }
-//        });
-//
-//        enrollmentKey.setOnKeyReleased(e -> {
-//            if(isValidInput()){
-//                createCourseButton.setDisable(false);
-//            }
-//        });
-//
-//        courseCode.setOnKeyReleased(e -> {
-//            if(isValidInput()){
-//                createCourseButton.setDisable(false);
-//            }
-//        });
 
-//        createCourseButton.setOnAction(e -> {
-//            createCourseButton.setDisable(true);
-//            Course course = new Course();
-//            course.setCourseTitle(courseTitle.getText());
-//            course.setCourseCode(courseCode.getText());
-//            course.setCourseDescription(courseDescription.getText());
-//            course.setEnrollmentKey(enrollmentKey.getText());
-//            course.setInstructorId(App.instructor.getId());
-//
-//            final Response[] res = new Response[1];
-//
-//            Task<Void> createCourseTask = new Task<Void>() {
-//                @Override
-//                protected Void call() throws Exception {
-//                    res[0] = CourseRest.createCourse(course);
-//                    return null;
-//                }
-//            };
-//
-//            createCourseTask.setOnSucceeded(ez -> {
-//                createCourseButton.setDisable(false);
-//                if(res[0].getStatus() == 201){
-//                    // this means created
-//                    populateTable();
-//                    clearInput();
-//
-//                    System.out.println("Success");
-//                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//                    alert.setTitle("Success");
-//                    alert.setHeaderText("Course created");
-//                    alert.setContentText("Course has been created please check the courses table to confirm the details");
-//                    alert.showAndWait();
-//
-//
-//                }else{
-//                    System.out.println("Failed");
-//                }
-//            });
-//
-//            Thread createCourseThread = new Thread(createCourseTask);
-//
-//            createCourseThread.setDaemon(true);
-//            createCourseThread.start();
-//        });
         searchTextField.setOnKeyReleased(this::searchTable);
     }
 
@@ -162,25 +97,6 @@ public class InstructorCoursesPartialController {
             }
         }
     }
-
-//    private boolean isValidInput() {
-//        // This function checks the inputs for the create course form
-//        return !courseTitle.getText().isEmpty() &&
-//                !courseDescription.getText().isEmpty() &&
-//                !enrollmentKey.getText().isEmpty() &&
-//                !courseCode.getText().isEmpty();
-//    }
-//
-//    private void clearInput() {
-//        courseTitle.clear();
-//        courseDescription.clear();
-//        enrollmentKey.clear();
-//        courseCode.clear();
-//        createCourseButton.setDisable(true);
-//    }
-
-
-
 
     private void initializeTable(){
         TableColumn<String, Course> column1 = new TableColumn<>("ID");
@@ -215,13 +131,11 @@ public class InstructorCoursesPartialController {
         courseTable.getColumns().add(column4);
         courseTable.getColumns().add(column5);
 
-        //  Set selection moed
+        //  Set selection mode
         courseTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
-    private void populateTable(){
-
-
+    public void populateTable(){
 
         Task<Void> getCourseTask = new Task<Void>() {
             @Override
@@ -238,18 +152,53 @@ public class InstructorCoursesPartialController {
                 courseTable.getItems().add(course);
             }
 
-            ContextMenu contextMenu = new ContextMenu();
-            MenuItem item1 = new MenuItem("Edit");
-            contextMenu.getItems().add(item1);
+            ContextMenu contextMenuSingle = new ContextMenu();
+            MenuItem item1 = new MenuItem("Open");
+            MenuItem item2 = new MenuItem("Add Exercise");
+            MenuItem item3 = new MenuItem("Edit");
+            MenuItem item4 = new MenuItem("Delete");
 
-            courseTable.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    if(event.getButton() == MouseButton.SECONDARY){
-                        contextMenu.show(courseTable, event.getScreenX(), event.getScreenY());
+            contextMenuSingle.getItems().add(item1);
+            contextMenuSingle.getItems().add(item2);
+            contextMenuSingle.getItems().add(item3);
+            contextMenuSingle.getItems().add(item4);
+
+            item1.setOnAction(ev -> {
+                System.out.println("Open Clicked");
+            });
+
+            item2.setOnAction(ev -> {
+                System.out.println("Add Exercise");
+            });
+
+            item3.setOnAction(ev -> {
+                System.out.println("Edit");
+            });
+
+            item4.setOnAction(ev -> {
+                System.out.println("Delete");
+            });
+
+            ContextMenu contextMenuMultiple = new ContextMenu();
+            MenuItem menuMultiple1 = new MenuItem("Delete selected items");
+
+            menuMultiple1.setOnAction(ev -> {
+                System.out.println(courseTable.getSelectionModel().getSelectedItems().size());
+            });
+
+            contextMenuMultiple.getItems().add(menuMultiple1);
+
+            courseTable.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                if(event.getButton() == MouseButton.SECONDARY){
+                    if(courseTable.getSelectionModel().getSelectedItems().size() > 1){
+                        contextMenuMultiple.show(courseTable, event.getScreenX(), event.getScreenY());
                     }else{
-                        contextMenu.hide();
+                        contextMenuSingle.show(courseTable, event.getScreenX(), event.getScreenY());
                     }
+                }else{
+                    // This hides the context menu if clicked outside
+                    contextMenuMultiple.hide();
+                    contextMenuSingle.hide();
                 }
             });
         });
