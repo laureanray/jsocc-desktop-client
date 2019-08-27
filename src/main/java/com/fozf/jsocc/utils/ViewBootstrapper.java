@@ -12,7 +12,8 @@ public class ViewBootstrapper {
     public enum Size {
         LARGE,
         INSIDE,
-        SMALL
+        SMALL,
+        CUSTOM_ALERT
     };
 
     private Stage stage;
@@ -27,6 +28,9 @@ public class ViewBootstrapper {
         }else if(size.equals(Size.SMALL)){
             this.loader = new FXMLLoader(App.class.getResource("/fxml/"+filename+".fxml"));
             this.scene = new Scene(this.loader.load(), App.SM_WIDTH, App.SM_HEIGHT);
+        }else if(size.equals(size.CUSTOM_ALERT)){
+            this.loader = new FXMLLoader(App.class.getResource("/fxml/alert/"+filename+".fxml"));
+            this.scene = new Scene(this.loader.load(), App.ALERT_WIDTH, App.ALERT_HEIGHT);
         }else {
             this.loader = new FXMLLoader(App.class.getResource("/fxml/partial/"+filename+".fxml"));
             this.scene = new Scene(this.loader.load(), App.INS_WIDTH, App.INS_HEIGHT);

@@ -2,6 +2,7 @@ package com.fozf.jsocc.controllers.partial;
 
 import com.fozf.jsocc.controllers.CreateCourseController;
 import com.fozf.jsocc.controllers.InstructorDashboardController;
+import com.fozf.jsocc.controllers.alert.ConfirmDeleteController;
 import com.fozf.jsocc.models.Course;
 import com.fozf.jsocc.utils.App;
 import com.fozf.jsocc.utils.CourseREST;
@@ -182,7 +183,19 @@ public class InstructorCoursesPartialController {
             });
 
             item4.setOnAction(ev -> {
+                Course selectedCourse = (Course) courseTable.getSelectionModel().getSelectedItem();
                 System.out.println("Delete");
+                try {
+                    ViewBootstrapper delete = new ViewBootstrapper("ConfirmDelete", ViewBootstrapper.Size.CUSTOM_ALERT);
+                    Stage stage = delete.getStage();
+                    ConfirmDeleteController controller = delete.getLoader().getController();
+                    controller.setCourse(selectedCourse);
+
+                    stage.initModality(Modality.WINDOW_MODAL);
+                    stage.showAndWait();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             });
 
             ContextMenu contextMenuMultiple = new ContextMenu();
