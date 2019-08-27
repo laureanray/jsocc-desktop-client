@@ -1,12 +1,12 @@
 package com.fozf.jsocc.controllers.partial;
 
 import com.fozf.jsocc.controllers.CreateCourseController;
+import com.fozf.jsocc.controllers.InstructorDashboardController;
 import com.fozf.jsocc.models.Course;
 import com.fozf.jsocc.utils.App;
 import com.fozf.jsocc.utils.CourseREST;
-import com.fozf.jsocc.utils.ViewBootstrap;
+import com.fozf.jsocc.utils.ViewBootstrapper;
 import javafx.concurrent.Task;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -32,19 +32,16 @@ public class InstructorCoursesPartialController {
     public Button createNewCourseButton, createCourseButton, cancelButton;
     @FXML
     public TextField searchTextField;
-//    @FXML
-//    public VBox courseForm;
     @FXML
     public TableView courseTable;
 
     private Stage stage;
-//    @FXML
-//    public TextField courseTitle, enrollmentKey, courseCode;
-//    @FXML
-//    blic TextArea courseDescription;
 
     private List<Course> courseList = new ArrayList<>();
-    private ViewBootstrap createCourseView = null;
+    private ViewBootstrapper createCourseView = null;
+
+    private InstructorDashboardController dashboardController;
+
     @FXML
     public void initialize(){
         // Udpate table
@@ -54,7 +51,7 @@ public class InstructorCoursesPartialController {
 
 
         try {
-            createCourseView = new ViewBootstrap("CourseCreate", ViewBootstrap.Size.SMALL);
+            createCourseView = new ViewBootstrapper("CourseCreate", ViewBootstrapper.Size.SMALL);
             stage  = createCourseView.getStage();
             stage.setOnCloseRequest(ev -> stage.close());
             CreateCourseController controller = createCourseView.getLoader().getController();
@@ -66,7 +63,6 @@ public class InstructorCoursesPartialController {
         }
 
         createNewCourseButton.setOnAction(e -> {
-
             stage.showAndWait();
         });
 
@@ -165,6 +161,16 @@ public class InstructorCoursesPartialController {
 
             item1.setOnAction(ev -> {
                 System.out.println("Open Clicked");
+                Course selectedCourse = (Course) courseTable.getSelectionModel().getSelectedItem();
+                System.out.println(selectedCourse.getId());
+
+                try {
+                    ViewBootstrapper view = this.dashboardController.changeUI("instructorCoursePartial");
+                    InstructorCoursePartialController controller = view.getLoader().getController();
+                    controller.setCourse(selectedCourse);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             });
 
             item2.setOnAction(ev -> {
@@ -217,7 +223,11 @@ public class InstructorCoursesPartialController {
         Thread getCourseThread = new Thread(getCourseTask);
         getCourseThread.setDaemon(true);
         getCourseThread.start();
+    }
 
+    public void setDashboardController(InstructorDashboardController dashboardController) {
+        this.dashboardController = dashboardController;
+        System.out.println("Dashboard controller set");
     }
 
 }

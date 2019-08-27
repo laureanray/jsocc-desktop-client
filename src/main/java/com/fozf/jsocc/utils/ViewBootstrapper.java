@@ -8,7 +8,7 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
-public class ViewBootstrap {
+public class ViewBootstrapper {
     public enum Size {
         LARGE,
         INSIDE,
@@ -19,23 +19,20 @@ public class ViewBootstrap {
     private FXMLLoader loader;
     private Scene scene;
 
-    public ViewBootstrap(String filename, Size size) throws IOException {
-
-
-        this.loader = new FXMLLoader(App.class.getResource("/fxml/"+filename+".fxml"));
-        this.stage = new Stage();
-
-
+    public ViewBootstrapper(String filename, Size size) throws IOException {
 
         if(size.equals(Size.LARGE)){
+            this.loader = new FXMLLoader(App.class.getResource("/fxml/"+filename+".fxml"));
             this.scene = new Scene(this.loader.load(), App.WINDOW_WIDTH, App.WINDOW_HEIGHT);
-
         }else if(size.equals(Size.SMALL)){
+            this.loader = new FXMLLoader(App.class.getResource("/fxml/"+filename+".fxml"));
             this.scene = new Scene(this.loader.load(), App.SM_WIDTH, App.SM_HEIGHT);
         }else {
+            this.loader = new FXMLLoader(App.class.getResource("/fxml/partial/"+filename+".fxml"));
             this.scene = new Scene(this.loader.load(), App.INS_WIDTH, App.INS_HEIGHT);
         }
 
+        this.stage = new Stage();
         this.stage.setFullScreen(false);
         this.stage.setResizable(false);
         this.stage.setTitle(filename);

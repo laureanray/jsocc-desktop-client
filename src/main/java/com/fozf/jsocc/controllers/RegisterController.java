@@ -5,20 +5,16 @@ import com.fozf.jsocc.models.Student;
 import com.fozf.jsocc.utils.App;
 import com.fozf.jsocc.utils.InstructorRest;
 import com.fozf.jsocc.utils.StudentRest;
-import com.fozf.jsocc.utils.ViewBootstrap;
-import javafx.application.Platform;
+import com.fozf.jsocc.utils.ViewBootstrapper;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
-import javax.swing.text.View;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class RegisterController {
@@ -142,7 +138,7 @@ public class RegisterController {
                         thisStage.close();
 
                         try {
-                            ViewBootstrap vb = new ViewBootstrap("Login", ViewBootstrap.Size.SMALL);
+                            ViewBootstrapper vb = new ViewBootstrapper("Login", ViewBootstrapper.Size.SMALL);
                             LoginController lc = (LoginController) vb.getLoader().getController();
                             lc.username.setText(username.getText());
                             lc.password.setText(password.getText());

@@ -1,16 +1,15 @@
 package com.fozf.jsocc.controllers;
 
+import com.fozf.jsocc.controllers.partial.InstructorCoursesPartialController;
 import com.fozf.jsocc.utils.App;
-import com.fozf.jsocc.utils.ViewBootstrap;
+import com.fozf.jsocc.utils.ViewBootstrapper;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -19,10 +18,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
-import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 public class InstructorDashboardController {
@@ -59,19 +56,27 @@ public class InstructorDashboardController {
         accountName.setText(fullName);
 
         coursesLink.setOnAction(e -> {
-            changeUI("instructorCoursesPartial");
+            try {
+                ViewBootstrapper view = changeUI("instructorCoursesPartial");
+                InstructorCoursesPartialController controller = view.getLoader().getController();
+                controller.setDashboardController(this);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         });
 
         dashboardLink.setOnAction(e -> {
-            changeUI("instructorDashboardPartial");
+            try {
+                ViewBootstrapper view = changeUI("instructorDashboardPartial");
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         });
 
         logoutMenuItem.setOnAction(this::showLogoutDialog);
 
         dashboardLink.fire();
-
-
-
     }
 
     void setStage(Stage stage) {
@@ -82,29 +87,25 @@ public class InstructorDashboardController {
         });
     }
 
-    void changeUI(String filename){
-        try {
-            Node n = FXMLLoader.load(getClass().getResource("/fxml/partial/"+filename+".fxml"));
-            rootPane.setCenter(n);
+    public ViewBootstrapper changeUI(String filename) throws IOException {
 
-//            n.translateYProperty().set(100.0);
-            n.opacityProperty().set(0);
+            ViewBootstrapper view = new ViewBootstrapper(filename, ViewBootstrapper.Size.INSIDE);
+            Node root = view.getLoader().getRoot();
+            rootPane.setCenter(root);
+
+            root.opacityProperty().set(0);
             Timeline timeline = new Timeline();
 
             List<KeyValue> keyValues = new ArrayList<>();
-//            KeyValue kv1 = new KeyValue(n.translateYProperty(), 0, Interpolator.EASE_IN);
-            KeyValue kv2= new KeyValue(n.opacityProperty(), 1, Interpolator.EASE_IN);
+            KeyValue kv2= new KeyValue(root.opacityProperty(), 1, Interpolator.EASE_IN);
 
-//            KeyFrame kf1 = new KeyFrame(Duration.seconds(0.3), kv1);
             KeyFrame kf2 = new KeyFrame(Duration.seconds(0.2), kv2);
-//            timeline.getKeyFrames().add(kf1);
             timeline.getKeyFrames().add(kf2);
 
-;           timeline.play();
+            timeline.play();
 
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+
+        return view;
     }
 
     private void showLogoutDialog(Event e){
@@ -116,7 +117,7 @@ public class InstructorDashboardController {
 
         if(result.isPresent() && result.get() == ButtonType.OK){
             try {
-                new ViewBootstrap("Login", ViewBootstrap.Size.SMALL).getStage().show();
+                new ViewBootstrapper("Login", ViewBootstrapper.Size.SMALL).getStage().show();
                 App.instructor = null;
                 this.stage.close();
             } catch (IOException ex) {

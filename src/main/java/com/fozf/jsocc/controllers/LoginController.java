@@ -15,7 +15,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -58,7 +57,7 @@ public class LoginController {
         registerLink.setOnAction(e -> {
             System.out.println("Register clicked");
             try {
-                ViewBootstrap vb = new ViewBootstrap("Register", ViewBootstrap.Size.SMALL);
+                ViewBootstrapper vb = new ViewBootstrapper("Register", ViewBootstrapper.Size.SMALL);
                 vb.getStage().show();
                 Stage thisStage = (Stage) registerLink.getScene().getWindow();
                 thisStage.close();
@@ -143,13 +142,13 @@ public class LoginController {
             };
 
             studentLoginTask.setOnSucceeded(s -> {
-                ViewBootstrap view = null;
+                ViewBootstrapper view = null;
                 if(user.getClass().getSimpleName().equals("Instructor")){
                     try {
                         App.isStudent = false;
                         App.instructor = (Instructor) user;
                         App.student = null;
-                        view = new ViewBootstrap("Instructor Dashboard", ViewBootstrap.Size.LARGE);
+                        view = new ViewBootstrapper("Instructor Dashboard", ViewBootstrapper.Size.LARGE);
                         view.getStage().show();
                         InstructorDashboardController instructorDashboardController = (InstructorDashboardController) view.getLoader().getController();
                         instructorDashboardController.setStage(view.getStage());
@@ -163,7 +162,7 @@ public class LoginController {
                         App.isStudent = true;
                         App.instructor = null;
                         App.student = (Student) user;
-                        view = new ViewBootstrap("Student Dashboard", ViewBootstrap.Size.LARGE);
+                        view = new ViewBootstrapper("Student Dashboard", ViewBootstrapper.Size.LARGE);
                         StudentDashboardController studentDashboardController = (StudentDashboardController) view.getLoader().getController();
                         view.getStage().show();
 

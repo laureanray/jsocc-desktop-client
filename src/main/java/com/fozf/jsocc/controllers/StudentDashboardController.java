@@ -1,11 +1,9 @@
 package com.fozf.jsocc.controllers;
 
 import com.fozf.jsocc.utils.App;
-import com.fozf.jsocc.utils.ViewBootstrap;
+import com.fozf.jsocc.utils.ViewBootstrapper;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuButton;
@@ -57,7 +55,7 @@ public class StudentDashboardController {
 
         if(result.isPresent() && result.get() == ButtonType.OK){
             try {
-                new ViewBootstrap("Login", ViewBootstrap.Size.SMALL).getStage().show();
+                new ViewBootstrapper("Login", ViewBootstrapper.Size.SMALL).getStage().show();
                 App.instructor = null;
                 this.stage.close();
             } catch (IOException ex) {
