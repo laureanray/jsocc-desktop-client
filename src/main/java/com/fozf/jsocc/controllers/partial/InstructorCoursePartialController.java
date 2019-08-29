@@ -3,6 +3,7 @@ package com.fozf.jsocc.controllers.partial;
 import com.fozf.jsocc.controllers.dialog.AddExerciseController;
 import com.fozf.jsocc.models.Course;
 import com.fozf.jsocc.models.Exercise;
+import com.fozf.jsocc.models.ExerciseItem;
 import com.fozf.jsocc.utils.ViewBootstrapper;
 import com.fozf.jsocc.utils.error.ErrorREST;
 import com.fozf.jsocc.utils.rest.ExerciseREST;
@@ -20,7 +21,7 @@ import java.util.List;
 
 public class InstructorCoursePartialController {
     @FXML
-    private Text courseTitle, courseDescription;
+    private Text courseTitle, courseDescription, exerciseTitle;
     @FXML
     private TextFlow textFlow;
     private Course course;
@@ -29,13 +30,14 @@ public class InstructorCoursePartialController {
     private Button addExerciseButton, addAssignmentButton, addMaterialButton;
 
     @FXML
-    private TableView exercisesTableView;
+    private TableView exercisesTableView, exerciseItemsTable;
 
     private List<Exercise> exercises;
 
     @FXML
     public void initialize(){
-        initializeTable();
+        intiializeTables();
+        attachEventListeners();
 
         addExerciseButton.setOnAction(event -> {
             try {
@@ -52,12 +54,27 @@ public class InstructorCoursePartialController {
         });
     }
 
+    private void attachEventListeners() {
+        exercisesTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if(newSelection != null){
+                Exercise selectedExercise = (Exercise) exercisesTableView.getSelectionModel().getSelectedItem();
+                changeExercise(selectedExercise);
+            }
+        });
+
+    }
+
+    private void changeExercise(Exercise selectedExercise) {
+        exerciseTitle.setText(selectedExercise.getExerciseTitle());
+        loadListIntoExerciseItemsTable(selectedExercise.getExerciseItems());
+    }
+
     public void setCourse(Course course) {
         this.course = course;
         initializeUI();
     }
 
-    private void initializeTable(){
+    private void intiializeTables(){
         TableColumn<String, Exercise> column1 = new TableColumn<>("ID");
         column1.setCellValueFactory(new PropertyValueFactory<>("id"));
         column1.prefWidthProperty().bind(exercisesTableView.widthProperty().multiply(0.1));
@@ -90,14 +107,50 @@ public class InstructorCoursePartialController {
         exercisesTableView.getColumns().add(column4);
         exercisesTableView.getColumns().add(column5);
         exercisesTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+        TableColumn<String, ExerciseItem> col1 = new TableColumn<>("ID");
+        col1.setCellValueFactory(new PropertyValueFactory<>("id"));
+        col1.prefWidthProperty().bind(exerciseItemsTable.widthProperty().multiply(0.1));
+
+        TableColumn<String, ExerciseItem> col2 = new TableColumn<>("Title");
+        col2.setCellValueFactory(new PropertyValueFactory<>("itemTitle"));
+        col2.prefWidthProperty().bind(exerciseItemsTable.widthProperty().multiply(0.15));
+
+        TableColumn<String, ExerciseItem> col3 = new TableColumn<>("Description");
+        col3.setCellValueFactory(new PropertyValueFactory<>("itemDescription"));
+        col3.prefWidthProperty().bind(exerciseItemsTable.widthProperty().multiply(0.3));
+
+        TableColumn<String, ExerciseItem> col4 = new TableColumn<>("Poits");
+        col4.setCellValueFactory(new PropertyValueFactory<>("ppomts"));
+        col4.prefWidthProperty().bind(exerciseItemsTable.widthProperty().multiply(0.2));
+
+
+        col1.setResizable(false);
+        col2.setResizable(false);
+        col3.setResizable(false);
+        col4.setResizable(false);
+
+        exerciseItemsTable.getColumns().add(col1);
+        exerciseItemsTable.getColumns().add(col2);
+        exerciseItemsTable.getColumns().add(col3);
+        exerciseItemsTable.getColumns().add(col4);
+        exerciseItemsTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
-    private void loadListIntoTable(List<Exercise> exercises){
+    private void loadListIntoExerciseTable(List<Exercise> exercises){
         exercisesTableView.getItems().clear();
         for(Exercise exercise : exercises){
             exercisesTableView.getItems().add(exercise);
         }
     }
+
+    private void loadListIntoExerciseItemsTable(List<ExerciseItem> exerciseItems){
+        exerciseItemsTable.getItems().clear();
+        for(ExerciseItem exerciseItem : exerciseItems){
+            exerciseItemsTable.getItems().add(exerciseItem);
+        }
+    }
+
 
     private void initializeUI(){
         courseTitle.setText(course.getCourseTitle());
@@ -120,7 +173,7 @@ public class InstructorCoursePartialController {
 
         getExercisesTask.setOnSucceeded(event -> {
             if(exercises != null){
-                loadListIntoTable(exercises);
+                loadListIntoExerciseTable(exercises);
             }
         });
 

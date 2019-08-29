@@ -82,6 +82,27 @@
                         </TabPane>
                      </children>
                   </VBox>
+                  <VBox fx:id="exerciseDeatilsVbox" prefHeight="423.0" prefWidth="418.0">
+                     <children>
+                        <Text fx:id="exerciseTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="Exercise Title">
+                           <font>
+                              <Font size="27.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                        </Text>
+                        <Button fx:id="addExerciseItemButton" mnemonicParsing="false" text="Add Exercise Item">
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" />
+                           </VBox.margin>
+                        </Button>
+                        <TableView fx:id="exerciseItemsTable" prefHeight="326.0" prefWidth="403.0" />
+                     </children>
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </VBox>
                </children>
             </HBox>
          </content>

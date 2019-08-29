@@ -16,6 +16,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -26,15 +27,18 @@ import java.util.List;
 
 public class InstructorCoursesPartialController {
     @FXML
-    public ScrollPane scrollPane;
+    private ScrollPane scrollPane;
     @FXML
-    public VBox vbox;
+    private VBox vbox;
     @FXML
-    public Button createNewCourseButton, createCourseButton, cancelButton;
+    private Button createNewCourseButton, createCourseButton, cancelButton;
     @FXML
-    public TextField searchTextField;
+    private TextField searchTextField;
     @FXML
-    public TableView courseTable;
+    private TableView courseTable, exerciseItemsTable;
+    @FXML
+    private Text exerciseTitle;
+
 
     private Stage stage;
 
@@ -253,7 +257,7 @@ public class InstructorCoursesPartialController {
                 if(courseTable.getSelectionModel().getSelectedItems().size() == 1){
                     item1.fire();
                 }
-            }else{
+            } else{
                 System.out.println(event.getCode());
             }
         });
