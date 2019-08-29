@@ -160,6 +160,15 @@ public class InstructorCoursesPartialController {
             contextMenuSingle.getItems().add(item3);
             contextMenuSingle.getItems().add(item4);
 
+            ContextMenu contextMenuMultiple = new ContextMenu();
+            MenuItem menuMultiple1 = new MenuItem("Delete selected items");
+
+            menuMultiple1.setOnAction(ev -> {
+                System.out.println(courseTable.getSelectionModel().getSelectedItems().size());
+            });
+
+            contextMenuMultiple.getItems().add(menuMultiple1);
+
             item1.setOnAction(ev -> {
                 System.out.println("Open Clicked");
                 Course selectedCourse = (Course) courseTable.getSelectionModel().getSelectedItem();
@@ -185,6 +194,7 @@ public class InstructorCoursesPartialController {
             item4.setOnAction(ev -> {
                 Course selectedCourse = (Course) courseTable.getSelectionModel().getSelectedItem();
                 System.out.println("Delete");
+                contextMenuSingle.hide();
                 try {
                     ViewBootstrapper delete = new ViewBootstrapper("ConfirmDelete", ViewBootstrapper.Size.CUSTOM_ALERT);
                     Stage stage = delete.getStage();
@@ -198,14 +208,6 @@ public class InstructorCoursesPartialController {
                 }
             });
 
-            ContextMenu contextMenuMultiple = new ContextMenu();
-            MenuItem menuMultiple1 = new MenuItem("Delete selected items");
-
-            menuMultiple1.setOnAction(ev -> {
-                System.out.println(courseTable.getSelectionModel().getSelectedItems().size());
-            });
-
-            contextMenuMultiple.getItems().add(menuMultiple1);
 
             courseTable.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                 if(event.getButton() == MouseButton.SECONDARY){

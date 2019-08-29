@@ -127,6 +127,8 @@ public class LoginController {
 
         loginButton.setOnAction(e -> {
             loginButton.setDisable(true);
+            username.setDisable(true);
+            password.setDisable(true);
             loginButton.setText("Signing in...");
             LoginForm lf = new LoginForm();
             lf.setPassword(password.getText());
@@ -181,6 +183,8 @@ public class LoginController {
                 loginButton.setText("Login");
                 errorText.setText("Invalid login credentials.");
                 errorText.setVisible(true);
+                username.setDisable(false);
+                password.setDisable(false);
             });
 
             Thread loginThread = new Thread(studentLoginTask);
