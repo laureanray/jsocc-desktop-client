@@ -1,4 +1,4 @@
-package com.fozf.jsocc.utils;
+package com.fozf.jsocc.utils.rest;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InstructorRest {
+public class InstructorREST {
     private static final String REST_URI = "http://localhost:8080/api/v1/instructor";
     private static Client client = ClientBuilder.newClient();
 

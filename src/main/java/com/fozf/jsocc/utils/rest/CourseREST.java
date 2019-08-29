@@ -1,4 +1,4 @@
-package com.fozf.jsocc.utils;
+package com.fozf.jsocc.utils.rest;
 
 import com.fozf.jsocc.models.Course;
 

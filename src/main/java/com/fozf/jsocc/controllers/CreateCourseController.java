@@ -3,9 +3,7 @@ package com.fozf.jsocc.controllers;
 import com.fozf.jsocc.controllers.partial.InstructorCoursesPartialController;
 import com.fozf.jsocc.models.Course;
 import com.fozf.jsocc.utils.App;
-import com.fozf.jsocc.utils.CourseREST;
-import com.sun.xml.internal.bind.XmlAccessorFactory;
-import javafx.application.Platform;
+import com.fozf.jsocc.utils.rest.CourseREST;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -64,7 +62,7 @@ public class CreateCourseController {
                 // if status is 201 update the table
                 if(response.getStatus() == 201){
                     if(this.controller != null){
-                        this.controller.populateTable();
+                        this.controller.updateTableAsync();
                     }
 
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);

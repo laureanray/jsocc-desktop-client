@@ -4,7 +4,6 @@ import com.fozf.jsocc.controllers.LoginController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
@@ -13,7 +12,8 @@ public class ViewBootstrapper {
         LARGE,
         INSIDE,
         SMALL,
-        CUSTOM_ALERT
+        CUSTOM_ALERT,
+        CUSTOMER_ALERT
     };
 
     private Stage stage;
@@ -29,8 +29,11 @@ public class ViewBootstrapper {
             this.loader = new FXMLLoader(App.class.getResource("/fxml/"+filename+".fxml"));
             this.scene = new Scene(this.loader.load(), App.SM_WIDTH, App.SM_HEIGHT);
         }else if(size.equals(size.CUSTOM_ALERT)){
-            this.loader = new FXMLLoader(App.class.getResource("/fxml/alert/"+filename+".fxml"));
+            this.loader = new FXMLLoader(App.class.getResource("/fxml/dialog/"+filename+".fxml"));
             this.scene = new Scene(this.loader.load(), App.ALERT_WIDTH, App.ALERT_HEIGHT);
+        }else if(size.equals(size.CUSTOMER_ALERT)){
+            this.loader = new FXMLLoader(App.class.getResource("/fxml/dialog/"+filename+".fxml"));
+            this.scene = new Scene(this.loader.load(), App.ALERT_WIDTH_SM, App.ALERT_HEIGHT_SM);
         }else {
             this.loader = new FXMLLoader(App.class.getResource("/fxml/partial/"+filename+".fxml"));
             this.scene = new Scene(this.loader.load(), App.INS_WIDTH, App.INS_HEIGHT);

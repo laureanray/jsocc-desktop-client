@@ -1,7 +1,7 @@
-package com.fozf.jsocc.controllers.alert;
+package com.fozf.jsocc.controllers.dialog;
 
 import com.fozf.jsocc.models.Course;
-import com.fozf.jsocc.utils.CourseREST;
+import com.fozf.jsocc.utils.rest.CourseREST;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

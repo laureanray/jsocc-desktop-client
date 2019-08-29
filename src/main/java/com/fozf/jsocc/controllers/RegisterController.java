@@ -3,8 +3,8 @@ package com.fozf.jsocc.controllers;
 import com.fozf.jsocc.models.Instructor;
 import com.fozf.jsocc.models.Student;
 import com.fozf.jsocc.utils.App;
-import com.fozf.jsocc.utils.InstructorRest;
-import com.fozf.jsocc.utils.StudentRest;
+import com.fozf.jsocc.utils.rest.InstructorREST;
+import com.fozf.jsocc.utils.rest.StudentREST;
 import com.fozf.jsocc.utils.ViewBootstrapper;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -86,7 +86,7 @@ public class RegisterController {
                     task = new Task<Void>() {
                         @Override
                         protected Void call() throws Exception {
-                            res[0] = StudentRest.addStudent(student);
+                            res[0] = StudentREST.addStudent(student);
                             return null;
                         }
                     };
@@ -111,7 +111,7 @@ public class RegisterController {
                     task = new Task<Void>() {
                         @Override
                         protected Void call() throws Exception {
-                            res[0] = InstructorRest.addInstructor(instructor);
+                            res[0] = InstructorREST.addInstructor(instructor);
                             return null;
                         }
                     };

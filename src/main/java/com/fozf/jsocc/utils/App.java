@@ -18,6 +18,8 @@ public class App {
     public static int INS_HEIGHT = 490;
     public static int ALERT_WIDTH = 400;
     public static int ALERT_HEIGHT = 200;
+    public static int ALERT_WIDTH_SM = 400;
+    public static int ALERT_HEIGHT_SM = 175;
     public static Image icon = new Image(App.class.getResourceAsStream("/images/icon.png"));
     public static Image statusGreen = new Image(App.class.getResourceAsStream("/images/green.png"));
     public static Image statusRed = new Image(App.class.getResourceAsStream("/images/red.png"));

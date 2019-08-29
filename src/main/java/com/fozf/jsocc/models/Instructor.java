@@ -16,6 +16,23 @@ public class Instructor extends User {
     private String email;
     private String password;
     private String username;
+    private String userProfileImage;
+
+    public boolean isInstructor() {
+        return instructor;
+    }
+
+    public void setInstructor(boolean instructor) {
+        this.instructor = instructor;
+    }
+
+    public String getUserProfileImage() {
+        return userProfileImage;
+    }
+
+    public void setUserProfileImage(String userProfileImage) {
+        this.userProfileImage = userProfileImage;
+    }
 
     private List<Course> courses = new ArrayList<>();
 

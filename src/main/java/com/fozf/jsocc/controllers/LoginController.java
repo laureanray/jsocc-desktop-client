@@ -5,6 +5,7 @@ import com.fozf.jsocc.models.LoginForm;
 import com.fozf.jsocc.models.Student;
 import com.fozf.jsocc.models.User;
 import com.fozf.jsocc.utils.*;
+import com.fozf.jsocc.utils.rest.AuthREST;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

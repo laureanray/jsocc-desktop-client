@@ -2,10 +2,10 @@ package com.fozf.jsocc.controllers.partial;
 
 import com.fozf.jsocc.controllers.CreateCourseController;
 import com.fozf.jsocc.controllers.InstructorDashboardController;
-import com.fozf.jsocc.controllers.alert.ConfirmDeleteController;
+import com.fozf.jsocc.controllers.dialog.ConfirmDeleteController;
 import com.fozf.jsocc.models.Course;
 import com.fozf.jsocc.utils.App;
-import com.fozf.jsocc.utils.CourseREST;
+import com.fozf.jsocc.utils.rest.CourseREST;
 import com.fozf.jsocc.utils.ViewBootstrapper;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -45,11 +45,11 @@ public class InstructorCoursesPartialController {
 
     @FXML
     public void initialize(){
-        // Udpate table
+        // Update table
         System.out.println("Initialize Partial");
         initializeTable();
-        populateTable();
-
+        updateTableAsync();
+        attachEventListeners();
 
         try {
             createCourseView = new ViewBootstrapper("CourseCreate", ViewBootstrapper.Size.SMALL);
@@ -132,7 +132,7 @@ public class InstructorCoursesPartialController {
         courseTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
-    public void populateTable(){
+    public void updateTableAsync(){
 
         Task<Void> getCourseTask = new Task<Void>() {
             @Override
@@ -143,85 +143,7 @@ public class InstructorCoursesPartialController {
         };
 
         getCourseTask.setOnSucceeded(e -> {
-            courseTable.getItems().clear();
-            for(Course course : courseList){
-                System.out.println(course.getCourseTitle());
-                courseTable.getItems().add(course);
-            }
-
-            ContextMenu contextMenuSingle = new ContextMenu();
-            MenuItem item1 = new MenuItem("Open");
-            MenuItem item2 = new MenuItem("Add Exercise");
-            MenuItem item3 = new MenuItem("Edit");
-            MenuItem item4 = new MenuItem("Delete");
-
-            contextMenuSingle.getItems().add(item1);
-            contextMenuSingle.getItems().add(item2);
-            contextMenuSingle.getItems().add(item3);
-            contextMenuSingle.getItems().add(item4);
-
-            ContextMenu contextMenuMultiple = new ContextMenu();
-            MenuItem menuMultiple1 = new MenuItem("Delete selected items");
-
-            menuMultiple1.setOnAction(ev -> {
-                System.out.println(courseTable.getSelectionModel().getSelectedItems().size());
-            });
-
-            contextMenuMultiple.getItems().add(menuMultiple1);
-
-            item1.setOnAction(ev -> {
-                System.out.println("Open Clicked");
-                Course selectedCourse = (Course) courseTable.getSelectionModel().getSelectedItem();
-                System.out.println(selectedCourse.getId());
-
-                try {
-                    ViewBootstrapper view = this.dashboardController.changeUI("instructorCoursePartial");
-                    InstructorCoursePartialController controller = view.getLoader().getController();
-                    controller.setCourse(selectedCourse);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            });
-
-            item2.setOnAction(ev -> {
-                System.out.println("Add Exercise");
-            });
-
-            item3.setOnAction(ev -> {
-                System.out.println("Edit");
-            });
-
-            item4.setOnAction(ev -> {
-                Course selectedCourse = (Course) courseTable.getSelectionModel().getSelectedItem();
-                System.out.println("Delete");
-                contextMenuSingle.hide();
-                try {
-                    ViewBootstrapper delete = new ViewBootstrapper("ConfirmDelete", ViewBootstrapper.Size.CUSTOM_ALERT);
-                    Stage stage = delete.getStage();
-                    ConfirmDeleteController controller = delete.getLoader().getController();
-                    controller.setCourse(selectedCourse);
-
-                    stage.initModality(Modality.WINDOW_MODAL);
-                    stage.showAndWait();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            });
-
-
-            courseTable.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                if(event.getButton() == MouseButton.SECONDARY){
-                    if(courseTable.getSelectionModel().getSelectedItems().size() > 1){
-                        contextMenuMultiple.show(courseTable, event.getScreenX(), event.getScreenY());
-                    }else{
-                        contextMenuSingle.show(courseTable, event.getScreenX(), event.getScreenY());
-                    }
-                }else{
-                    // This hides the context menu if clicked outside
-                    contextMenuMultiple.hide();
-                    contextMenuSingle.hide();
-                }
-            });
+            populateTable(courseList);
         });
 
         getCourseTask.setOnFailed(e -> {
@@ -243,6 +165,112 @@ public class InstructorCoursesPartialController {
     public void setDashboardController(InstructorDashboardController dashboardController) {
         this.dashboardController = dashboardController;
         System.out.println("Dashboard controller set");
+    }
+
+    private void populateTable(List<Course> courses){
+        courseTable.getItems().clear();
+        for(Course course :  courses){
+            System.out.println(course.getCourseTitle());
+            courseTable.getItems().add(course);
+        }
+    }
+
+    private void attachEventListeners(){
+        ContextMenu contextMenuSingle = new ContextMenu();
+        MenuItem item1 = new MenuItem("Open");
+        MenuItem item2 = new MenuItem("Add Exercise");
+        MenuItem item3 = new MenuItem("Edit");
+        MenuItem item4 = new MenuItem("Delete");
+
+        contextMenuSingle.getItems().add(item1);
+        contextMenuSingle.getItems().add(item2);
+        contextMenuSingle.getItems().add(item3);
+        contextMenuSingle.getItems().add(item4);
+
+        ContextMenu contextMenuMultiple = new ContextMenu();
+        MenuItem menuMultiple1 = new MenuItem("Delete selected items");
+
+        menuMultiple1.setOnAction(ev -> {
+            System.out.println(courseTable.getSelectionModel().getSelectedItems().size());
+        });
+
+        contextMenuMultiple.getItems().add(menuMultiple1);
+
+        item1.setOnAction(ev -> {
+            contextMenuSingle.hide();
+            System.out.println("Open Clicked");
+            Course selectedCourse = (Course) courseTable.getSelectionModel().getSelectedItem();
+            System.out.println(selectedCourse.getId());
+
+            try {
+                ViewBootstrapper view = this.dashboardController.changeUI("instructorCoursePartial");
+                InstructorCoursePartialController controller = view.getLoader().getController();
+                controller.setCourse(selectedCourse);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        item2.setOnAction(ev -> {
+            System.out.println("Add Exercise");
+            contextMenuSingle.hide();
+
+        });
+
+        item3.setOnAction(ev -> {
+            System.out.println("Edit");
+            contextMenuSingle.hide();
+
+        });
+
+        item4.setOnAction(ev -> {
+            contextMenuSingle.hide();
+
+            deleteSelectedCourse(contextMenuSingle);
+        });
+
+
+        courseTable.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            if(event.getButton() == MouseButton.SECONDARY){
+                if(courseTable.getSelectionModel().getSelectedItems().size() > 1){
+                    contextMenuMultiple.show(courseTable, event.getScreenX(), event.getScreenY());
+                }else{
+                    contextMenuSingle.show(courseTable, event.getScreenX(), event.getScreenY());
+                }
+            }else{
+                // This hides the context menu if clicked outside
+                contextMenuMultiple.hide();
+                contextMenuSingle.hide();
+            }
+        });
+
+
+        courseTable.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            System.out.println("FIRE");
+            if(event.getCode() == KeyCode.DELETE){
+                item4.fire();
+            }else{
+                System.out.println(event.getCode());
+            }
+        });
+    }
+
+    private void deleteSelectedCourse(ContextMenu contextMenu){
+        Course selectedCourse = (Course) courseTable.getSelectionModel().getSelectedItem();
+        System.out.println("Delete");
+        contextMenu.hide();
+        try {
+            ViewBootstrapper delete = new ViewBootstrapper("ConfirmDelete", ViewBootstrapper.Size.CUSTOM_ALERT);
+            Stage stage = delete.getStage();
+            ConfirmDeleteController controller = delete.getLoader().getController();
+            controller.setCourse(selectedCourse);
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.showAndWait();
+            // After the delete update the table
+            updateTableAsync();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
 }

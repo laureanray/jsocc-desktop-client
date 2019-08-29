@@ -1,4 +1,4 @@
-package com.fozf.jsocc.utils;
+package com.fozf.jsocc.utils.rest;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
