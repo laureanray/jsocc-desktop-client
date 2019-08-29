@@ -93,6 +93,7 @@ public class InstructorCoursePartialController {
     }
 
     private void loadListIntoTable(List<Exercise> exercises){
+        exercisesTableView.getItems().clear();
         for(Exercise exercise : exercises){
             exercisesTableView.getItems().add(exercise);
         }

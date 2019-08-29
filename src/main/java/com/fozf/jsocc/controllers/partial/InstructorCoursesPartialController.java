@@ -249,6 +249,10 @@ public class InstructorCoursesPartialController {
             System.out.println("FIRE");
             if(event.getCode() == KeyCode.DELETE){
                 item4.fire();
+            } else if(event.getCode() == KeyCode.ENTER){
+                if(courseTable.getSelectionModel().getSelectedItems().size() == 1){
+                    item1.fire();
+                }
             }else{
                 System.out.println(event.getCode());
             }
