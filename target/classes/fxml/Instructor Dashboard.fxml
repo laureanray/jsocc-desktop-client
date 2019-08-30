@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="1100.0" stylesheets="@../css/style.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="com.fozf.jsocc.controllers.InstructorDashboardController">
+<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="1100.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fozf.jsocc.controllers.InstructorDashboardController">
    <top>
       <GridPane maxHeight="50.0" minHeight="50.0" prefHeight="50.0" styleClass="topbar" BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -51,7 +51,7 @@
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </VBox.margin>
                <image>
-                  <Image url="@../../../../../../../Pictures/avatar.png" />
+                  <Image url="@../images/61ZzsXvJXQL._SX425_.jpg" />
                </image>
             </ImageView>
             <Text fx:id="accountName" strokeType="OUTSIDE" strokeWidth="0.0" text="Accout Name">
@@ -59,7 +59,12 @@
                   <Font size="18.0" />
                </font>
                <VBox.margin>
-                  <Insets bottom="5.0" left="20.0" right="15.0" />
+                  <Insets bottom="2.0" left="20.0" right="15.0" />
+               </VBox.margin>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Instructor">
+               <VBox.margin>
+                  <Insets left="20.0" />
                </VBox.margin>
             </Text>
             <Hyperlink fx:id="dashboardLink" maxHeight="1.7976931348623157E308" styleClass="link" text="Dashboard">
@@ -72,14 +77,14 @@
                   <Insets left="15.0" />
                </VBox.margin>
             </Hyperlink>
-            <Hyperlink styleClass="link" text="Student">
+            <Hyperlink styleClass="link" text="Students">
                <VBox.margin>
                   <Insets left="15.0" />
                </VBox.margin>
             </Hyperlink>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="© 2019 v0.1.0">
                <VBox.margin>
-                  <Insets left="20.0" />
+                  <Insets left="20.0" top="100.0" />
                </VBox.margin>
             </Text>
          </children>

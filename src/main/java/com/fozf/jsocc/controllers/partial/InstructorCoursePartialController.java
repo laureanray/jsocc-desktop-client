@@ -120,7 +120,7 @@ public class InstructorCoursePartialController {
         col3.setCellValueFactory(new PropertyValueFactory<>("itemDescription"));
         col3.prefWidthProperty().bind(exerciseItemsTable.widthProperty().multiply(0.3));
 
-        TableColumn<String, ExerciseItem> col4 = new TableColumn<>("Poits");
+        TableColumn<String, ExerciseItem> col4 = new TableColumn<>("Points");
         col4.setCellValueFactory(new PropertyValueFactory<>("ppomts"));
         col4.prefWidthProperty().bind(exerciseItemsTable.widthProperty().multiply(0.2));
 

@@ -24,8 +24,6 @@ public class Main extends Application {
         primaryStage.setFullScreen(false);
         this.stage = primaryStage;
         primaryStage.show();
-
-
     }
 
     public Stage getStage() {
