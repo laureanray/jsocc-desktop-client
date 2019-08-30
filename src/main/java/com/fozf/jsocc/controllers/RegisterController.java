@@ -138,7 +138,7 @@ public class RegisterController {
                         thisStage.close();
 
                         try {
-                            ViewBootstrapper vb = new ViewBootstrapper("Login", ViewBootstrapper.Size.SMALL);
+                            ViewBootstrapper vb = new ViewBootstrapper("Login", ViewBootstrapper.Size.SMALL,  ViewBootstrapper.Type.NORMAL);
                             LoginController lc = (LoginController) vb.getLoader().getController();
                             lc.username.setText(username.getText());
                             lc.password.setText(password.getText());

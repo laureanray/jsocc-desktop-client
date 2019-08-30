@@ -89,7 +89,7 @@ public class InstructorDashboardController {
 
     public ViewBootstrapper changeUI(String filename) throws IOException {
 
-            ViewBootstrapper view = new ViewBootstrapper(filename, ViewBootstrapper.Size.INSIDE);
+            ViewBootstrapper view = new ViewBootstrapper(filename, ViewBootstrapper.Size.INSIDE,  ViewBootstrapper.Type.PARTIAL);
             Node root = view.getLoader().getRoot();
             rootPane.setCenter(root);
 
@@ -117,7 +117,7 @@ public class InstructorDashboardController {
 
         if(result.isPresent() && result.get() == ButtonType.OK){
             try {
-                new ViewBootstrapper("Login", ViewBootstrapper.Size.SMALL).getStage().show();
+                new ViewBootstrapper("Login", ViewBootstrapper.Size.SMALL,  ViewBootstrapper.Type.NORMAL).getStage().show();
                 App.instructor = null;
                 this.stage.close();
             } catch (IOException ex) {

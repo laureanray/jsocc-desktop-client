@@ -56,7 +56,7 @@ public class InstructorCoursesPartialController {
         attachEventListeners();
 
         try {
-            createCourseView = new ViewBootstrapper("CourseCreate", ViewBootstrapper.Size.SMALL);
+            createCourseView = new ViewBootstrapper("CourseCreate", ViewBootstrapper.Size.SMALL,  ViewBootstrapper.Type.NORMAL);
             stage  = createCourseView.getStage();
             stage.setOnCloseRequest(ev -> stage.close());
             CreateCourseController controller = createCourseView.getLoader().getController();
@@ -268,11 +268,11 @@ public class InstructorCoursesPartialController {
         System.out.println("Delete");
         contextMenu.hide();
         try {
-            ViewBootstrapper delete = new ViewBootstrapper("ConfirmDelete", ViewBootstrapper.Size.CUSTOM_ALERT);
+            ViewBootstrapper delete = new ViewBootstrapper("ConfirmDelete", ViewBootstrapper.Size.CUSTOM_ALERT,  ViewBootstrapper.Type.DIALOG);
             Stage stage = delete.getStage();
             ConfirmDeleteController controller = delete.getLoader().getController();
             controller.setCourse(selectedCourse);
-            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
             // After the delete update the table
             updateTableAsync();

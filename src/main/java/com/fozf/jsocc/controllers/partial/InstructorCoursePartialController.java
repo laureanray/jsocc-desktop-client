@@ -1,6 +1,7 @@
 package com.fozf.jsocc.controllers.partial;
 
 import com.fozf.jsocc.controllers.dialog.AddExerciseController;
+import com.fozf.jsocc.controllers.dialog.AddExerciseItemController;
 import com.fozf.jsocc.models.Course;
 import com.fozf.jsocc.models.Exercise;
 import com.fozf.jsocc.models.ExerciseItem;
@@ -27,12 +28,14 @@ public class InstructorCoursePartialController {
     private Course course;
 
     @FXML
-    private Button addExerciseButton, addAssignmentButton, addMaterialButton;
+    private Button addExerciseButton, addAssignmentButton, addMaterialButton, addExerciseItemButton;
 
     @FXML
     private TableView exercisesTableView, exerciseItemsTable;
 
     private List<Exercise> exercises;
+
+    private Exercise selectedExercise;
 
     @FXML
     public void initialize(){
@@ -41,10 +44,26 @@ public class InstructorCoursePartialController {
 
         addExerciseButton.setOnAction(event -> {
             try {
-                ViewBootstrapper delete = new ViewBootstrapper("AddExercise", ViewBootstrapper.Size.CUSTOMER_ALERT);
+                ViewBootstrapper delete = new ViewBootstrapper("AddExercise", ViewBootstrapper.Size.CUSTOM_ALERT_SM,  ViewBootstrapper.Type.DIALOG);
                 Stage stage = delete.getStage();
                 AddExerciseController controller = delete.getLoader().getController();
                 controller.setCourse(course);
+                controller.setController(this);
+                stage.initModality(Modality.WINDOW_MODAL);
+                stage.showAndWait();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        addExerciseItemButton.setOnAction(event -> {
+            try {
+                ViewBootstrapper delete = new ViewBootstrapper("AddExerciseItem", ViewBootstrapper.Size.SMALL,  ViewBootstrapper.Type.DIALOG);
+                Stage stage = delete.getStage();
+                AddExerciseItemController controller = delete.getLoader().getController();
+                if(selectedExercise != null){
+                    controller.setExercise(selectedExercise);
+                }
                 controller.setController(this);
                 stage.initModality(Modality.WINDOW_MODAL);
                 stage.showAndWait();
@@ -57,16 +76,17 @@ public class InstructorCoursePartialController {
     private void attachEventListeners() {
         exercisesTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if(newSelection != null){
-                Exercise selectedExercise = (Exercise) exercisesTableView.getSelectionModel().getSelectedItem();
-                changeExercise(selectedExercise);
+                Exercise selected = (Exercise) exercisesTableView.getSelectionModel().getSelectedItem();
+                changeExercise(selected);
             }
         });
 
     }
 
-    private void changeExercise(Exercise selectedExercise) {
-        exerciseTitle.setText(selectedExercise.getExerciseTitle());
-        loadListIntoExerciseItemsTable(selectedExercise.getExerciseItems());
+    private void changeExercise(Exercise selected) {
+        exerciseTitle.setText(selected.getExerciseTitle());
+        loadListIntoExerciseItemsTable(selected.getExerciseItems());
+        selectedExercise = selected;
     }
 
     public void setCourse(Course course) {

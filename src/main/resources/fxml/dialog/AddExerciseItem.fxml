@@ -2,22 +2,24 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="175.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fozf.jsocc.controllers.dialog.AddExerciseController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fozf.jsocc.controllers.dialog.AddExerciseItemController">
    <top>
       <GridPane prefHeight="38.0" prefWidth="400.0" BorderPane.alignment="CENTER">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="30.0" minWidth="10.0" prefWidth="27.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="418.0" minWidth="10.0" prefWidth="128.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="418.0" minWidth="10.0" prefWidth="220.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="36.0" minWidth="10.0" prefWidth="29.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" percentWidth="0.0" prefWidth="20.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="418.0" minWidth="10.0" prefWidth="138.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="418.0" minWidth="10.0" prefWidth="228.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
         </columnConstraints>
         <rowConstraints>
             <RowConstraints fillHeight="false" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -27,7 +29,7 @@
             <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TextField fx:id="exerciseTitle" promptText="Exercise Title" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <TextField fx:id="itemTitle" promptText="Item Title" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <Text fx:id="errorText" fill="#d01212" strokeType="OUTSIDE" strokeWidth="0.0" text="Error" visible="false" GridPane.columnIndex="1" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Add Exercise Item" GridPane.columnIndex="1">
                <font>
@@ -36,12 +38,37 @@
             </Text>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Item Title" wrappingWidth="100.13671875" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description" wrappingWidth="100.13671875" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Button fx:id="addExerciseButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="229.0" text="Add Exercise Item" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-            <TextField promptText="Description" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <TextField fx:id="itemDescription" promptText="Description" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Points" wrappingWidth="100.13671875" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="points" promptText="Points" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <Button fx:id="addTestCaseButton" mnemonicParsing="false" text="Add Test Case" GridPane.columnIndex="1" GridPane.rowIndex="4" />
          </children>
          <BorderPane.margin>
             <Insets top="20.0" />
          </BorderPane.margin>
       </GridPane>
    </top>
+   <center>
+      <TableView fx:id="testCasesTable" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets top="15.0" />
+         </BorderPane.margin>
+      </TableView>
+   </center>
+   <bottom>
+      <HBox alignment="TOP_RIGHT" prefHeight="0.0" prefWidth="175.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="cancelButton" alignment="TOP_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" text="Cancel">
+               <HBox.margin>
+                  <Insets bottom="15.0" left="15.0" top="15.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="addExerciseItemButton" alignment="TOP_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" text="Add Exercise Item">
+               <HBox.margin>
+                  <Insets bottom="15.0" left="10.0" right="15.0" top="15.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+   </bottom>
 </BorderPane>

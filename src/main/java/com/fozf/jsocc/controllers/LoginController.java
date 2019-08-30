@@ -58,7 +58,7 @@ public class LoginController {
         registerLink.setOnAction(e -> {
             System.out.println("Register clicked");
             try {
-                ViewBootstrapper vb = new ViewBootstrapper("Register", ViewBootstrapper.Size.SMALL);
+                ViewBootstrapper vb = new ViewBootstrapper("Register", ViewBootstrapper.Size.SMALL,   ViewBootstrapper.Type.NORMAL);
                 vb.getStage().show();
                 Stage thisStage = (Stage) registerLink.getScene().getWindow();
                 thisStage.close();
@@ -151,7 +151,7 @@ public class LoginController {
                         App.isStudent = false;
                         App.instructor = (Instructor) user;
                         App.student = null;
-                        view = new ViewBootstrapper("Instructor Dashboard", ViewBootstrapper.Size.LARGE);
+                        view = new ViewBootstrapper("Instructor Dashboard", ViewBootstrapper.Size.LARGE,  ViewBootstrapper.Type.NORMAL);
                         view.getStage().show();
                         InstructorDashboardController instructorDashboardController = (InstructorDashboardController) view.getLoader().getController();
                         instructorDashboardController.setStage(view.getStage());
@@ -165,7 +165,7 @@ public class LoginController {
                         App.isStudent = true;
                         App.instructor = null;
                         App.student = (Student) user;
-                        view = new ViewBootstrapper("Student Dashboard", ViewBootstrapper.Size.LARGE);
+                        view = new ViewBootstrapper("Student Dashboard", ViewBootstrapper.Size.LARGE,  ViewBootstrapper.Type.NORMAL);
                         StudentDashboardController studentDashboardController = (StudentDashboardController) view.getLoader().getController();
                         view.getStage().show();
 

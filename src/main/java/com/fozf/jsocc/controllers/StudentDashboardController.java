@@ -55,7 +55,7 @@ public class StudentDashboardController {
 
         if(result.isPresent() && result.get() == ButtonType.OK){
             try {
-                new ViewBootstrapper("Login", ViewBootstrapper.Size.SMALL).getStage().show();
+                new ViewBootstrapper("Login", ViewBootstrapper.Size.SMALL, ViewBootstrapper.Type.NORMAL).getStage().show();
                 App.instructor = null;
                 this.stage.close();
             } catch (IOException ex) {

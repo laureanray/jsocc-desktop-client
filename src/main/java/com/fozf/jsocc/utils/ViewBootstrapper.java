@@ -13,29 +13,38 @@ public class ViewBootstrapper {
         INSIDE,
         SMALL,
         CUSTOM_ALERT,
-        CUSTOMER_ALERT
+        CUSTOM_ALERT_SM
     };
+
+    public enum Type {
+        DIALOG,
+        PARTIAL,
+        NORMAL
+    }
 
     private Stage stage;
     private FXMLLoader loader;
     private Scene scene;
 
-    public ViewBootstrapper(String filename, Size size) throws IOException {
+    public ViewBootstrapper(String filename, Size size, Type type) throws IOException {
+
+        if(type.equals(Type.NORMAL)){
+            this.loader = new FXMLLoader(App.class.getResource("/fxml/"+filename+".fxml"));
+        } else if (type.equals(Type.PARTIAL)) {
+            this.loader = new FXMLLoader(App.class.getResource("/fxml/partial/"+filename+".fxml"));
+        } else{
+            this.loader = new FXMLLoader(App.class.getResource("/fxml/dialog/"+filename+".fxml"));
+        }
 
         if(size.equals(Size.LARGE)){
-            this.loader = new FXMLLoader(App.class.getResource("/fxml/"+filename+".fxml"));
             this.scene = new Scene(this.loader.load(), App.WINDOW_WIDTH, App.WINDOW_HEIGHT);
         }else if(size.equals(Size.SMALL)){
-            this.loader = new FXMLLoader(App.class.getResource("/fxml/"+filename+".fxml"));
             this.scene = new Scene(this.loader.load(), App.SM_WIDTH, App.SM_HEIGHT);
         }else if(size.equals(size.CUSTOM_ALERT)){
-            this.loader = new FXMLLoader(App.class.getResource("/fxml/dialog/"+filename+".fxml"));
             this.scene = new Scene(this.loader.load(), App.ALERT_WIDTH, App.ALERT_HEIGHT);
-        }else if(size.equals(size.CUSTOMER_ALERT)){
-            this.loader = new FXMLLoader(App.class.getResource("/fxml/dialog/"+filename+".fxml"));
+        }else if(size.equals(size.CUSTOM_ALERT_SM)){
             this.scene = new Scene(this.loader.load(), App.ALERT_WIDTH_SM, App.ALERT_HEIGHT_SM);
         }else {
-            this.loader = new FXMLLoader(App.class.getResource("/fxml/partial/"+filename+".fxml"));
             this.scene = new Scene(this.loader.load(), App.INS_WIDTH, App.INS_HEIGHT);
         }
 
