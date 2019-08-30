@@ -246,7 +246,12 @@ public class InstructorCoursesPartialController {
                 contextMenuMultiple.hide();
                 contextMenuSingle.hide();
             }
+
+            if(event.getClickCount() == 2){
+                item1.fire();
+            }
         });
+
 
 
         courseTable.addEventHandler(KeyEvent.KEY_PRESSED, event -> {

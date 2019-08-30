@@ -2,10 +2,14 @@ package com.fozf.jsocc.controllers.dialog;
 
 import com.fozf.jsocc.controllers.partial.InstructorCoursePartialController;
 import com.fozf.jsocc.models.Exercise;
+import com.fozf.jsocc.models.ExerciseItem;
 import com.fozf.jsocc.models.TestCase;
 import com.fozf.jsocc.utils.ViewBootstrapper;
+import com.fozf.jsocc.utils.error.ErrorREST;
+import com.fozf.jsocc.utils.rest.ExerciseItemREST;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -13,6 +17,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import javax.swing.text.View;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 
 public class AddExerciseItemController {
@@ -40,9 +45,39 @@ public class AddExerciseItemController {
         attachEventListeners();
     }
 
+    static Response response;
+
     private void attachEventListeners() {
         addExerciseItemButton.setOnAction(event -> {
+            addExerciseItemButton.setDisable(true);
+            ExerciseItem exerciseItem = new ExerciseItem();
+            exerciseItem.setItemTitle(itemTitle.getText());
+            exerciseItem.setExercise(exercise);
+            for(TestCase testCase : testCases){
+                exerciseItem.getTestCases().add(testCase);
+            }
 
+
+            Task<Void> addExerciseItemTask = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    response = ExerciseItemREST.addExerciseItem(exerciseItem);
+                    return null;
+                }
+            };
+
+            addExerciseItemTask.setOnSucceeded(ev -> {
+                Stage stage = (Stage) addExerciseItemButton.getScene().getWindow();
+                stage.close();
+            });
+
+            addExerciseItemTask.setOnFailed(ev -> {
+                new ErrorREST("Test").getAlert().showAndWait();
+            });
+
+            Thread addExerciseItemThread = new Thread(addExerciseItemTask);
+            addExerciseItemThread.setDaemon(true);
+            addExerciseItemThread.start();
         });
 
         addTestCaseButton.setOnAction(event -> {
@@ -68,10 +103,6 @@ public class AddExerciseItemController {
 
 
     private void initializeTable(){
-        TableColumn<String, TestCase> column1 = new TableColumn<>("ID");
-        column1.setCellValueFactory(new PropertyValueFactory<>("id"));
-        column1.prefWidthProperty().bind(testCasesTable.widthProperty().multiply(0.1));
-
         TableColumn<String, TestCase> column2 = new TableColumn<>("Input");
         column2.setCellValueFactory(new PropertyValueFactory<>("input"));
         column2.prefWidthProperty().bind(testCasesTable.widthProperty().multiply(0.15));
@@ -84,12 +115,10 @@ public class AddExerciseItemController {
         column4.setCellValueFactory(new PropertyValueFactory<>("output"));
         column4.prefWidthProperty().bind(testCasesTable.widthProperty().multiply(0.2));
 
-        column1.setResizable(false);
         column2.setResizable(false);
         column3.setResizable(false);
         column4.setResizable(false);
 
-        testCasesTable.getColumns().add(column1);
         testCasesTable.getColumns().add(column2);
         testCasesTable.getColumns().add(column3);
         testCasesTable.getColumns().add(column4);
@@ -98,9 +127,9 @@ public class AddExerciseItemController {
     }
 
     public boolean addTestCase(TestCase testCase){
+        boolean state =  testCases.add(testCase);
         checkInputs();
-        return testCases.add(testCase);
-
+        return state;
     }
     private void checkInputs(){
         if(testCases.size() > 0 &&

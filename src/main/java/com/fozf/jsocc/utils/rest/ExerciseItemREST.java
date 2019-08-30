@@ -2,6 +2,8 @@ package com.fozf.jsocc.utils.rest;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fozf.jsocc.models.Exercise;
+import com.fozf.jsocc.models.ExerciseItem;
 import com.fozf.jsocc.models.LoginForm;
 import com.fozf.jsocc.models.Student;
 
@@ -15,58 +17,53 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExerciseItemREST {
-    private static final String REST_URI = "http://localhost:8080/api/v1/students";
+    private static final String REST_URI = "http://localhost:8080/api/v1/exerciseItem";
     private static Client client = ClientBuilder.newClient();
 
+    // CREATE
+    public static Response addExerciseItem(ExerciseItem exerciseItem){
+        return client.target(REST_URI)
+                .path("/create")
+                .request(MediaType.APPLICATION_JSON)
+                .post(Entity.entity(exerciseItem, MediaType.APPLICATION_JSON));
+    }
 
-
-    public static Student getStudentById(int id){
+    // READ
+    public static ExerciseItem getExerciseById(int id){
         return client
                 .target(REST_URI)
                 .path(String.valueOf(id))
                 .request(MediaType.APPLICATION_JSON)
-                .get(Student.class);
+                .get(ExerciseItem.class);
     }
 
-    public static Student getStudentByUsername(String username){
-        return client
-                .target(REST_URI)
-                .path("find/" + username)
-                .request(MediaType.APPLICATION_JSON)
-                .get(Student.class);
-    }
-
-    public static ArrayList<Student> getStudents() {
+    public static List<Exercise> getExerciseItemByExerciseId(long exerciseId) {
         String response = client
                 .target(REST_URI)
-                .path("")
+                .path("/findUsingCourseId/" + exerciseId)
                 .request(MediaType.APPLICATION_JSON)
                 .get(String.class);
+
         ObjectMapper mapper = new ObjectMapper();
-        ArrayList<Student> list = new ArrayList<>();
+        ArrayList<Exercise> list = new ArrayList<>();
 
         try {
-            list = mapper.readValue(response, new TypeReference<List<Student>>() {
+            list = mapper.readValue(response, new TypeReference<List<ExerciseItem>>() {
             });
 
-        } catch(IOException e){
+        } catch (IOException e) {
             System.out.println("e");
         }
 
         return list;
     }
 
-    public static Response addStudent(Student student){
-        return client.target(REST_URI)
-                .path("/register")
-                .request(MediaType.APPLICATION_JSON)
-                .post(Entity.entity(student, MediaType.APPLICATION_JSON));
-    }
 
-    public static Response login(LoginForm loginForm){
-        return client.target(REST_URI)
-                .path("/login")
+    // DELETE
+    public static void deleteExerciseItemByExerId(int id) {
+        client.target(REST_URI)
+                .path(String.valueOf(id))
                 .request(MediaType.APPLICATION_JSON)
-                .post(Entity.entity(loginForm, MediaType.APPLICATION_JSON));
-    }
+                .delete();
+    };
 }

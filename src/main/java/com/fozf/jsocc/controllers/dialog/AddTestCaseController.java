@@ -22,7 +22,7 @@ public class AddTestCaseController {
         addTestCaseButton.setOnAction(event -> {
             TestCase testCase = new TestCase();
             testCase.setInput(input.getText());
-            testCase.setOutput(input.getText());
+            testCase.setOutput(output.getText());
             controller.addTestCase(testCase);
         });
     }

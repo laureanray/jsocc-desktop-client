@@ -39,7 +39,7 @@ public class InstructorCoursePartialController {
 
     @FXML
     public void initialize(){
-        intiializeTables();
+        initializeTables();
         attachEventListeners();
 
         addExerciseButton.setOnAction(event -> {
@@ -94,7 +94,7 @@ public class InstructorCoursePartialController {
         initializeUI();
     }
 
-    private void intiializeTables(){
+    private void initializeTables(){
         TableColumn<String, Exercise> column1 = new TableColumn<>("ID");
         column1.setCellValueFactory(new PropertyValueFactory<>("id"));
         column1.prefWidthProperty().bind(exercisesTableView.widthProperty().multiply(0.1));
