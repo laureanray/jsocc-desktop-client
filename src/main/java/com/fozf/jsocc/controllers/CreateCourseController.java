@@ -2,8 +2,10 @@ package com.fozf.jsocc.controllers;
 
 import com.fozf.jsocc.controllers.partial.InstructorCoursesPartialController;
 import com.fozf.jsocc.models.Course;
+import com.fozf.jsocc.models.CourseTemplate;
 import com.fozf.jsocc.utils.App;
 import com.fozf.jsocc.utils.rest.CourseREST;
+import com.fozf.jsocc.utils.rest.CourseTemplateREST;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,16 +15,22 @@ import javafx.stage.Stage;
 
 import javax.ws.rs.core.Response;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CreateCourseController {
     @FXML
     private Button createCourseButton;
     @FXML
-    private TextField courseTitle, courseCode, enrollmentKey, enrollmentKeyConfirm;
+    private TextField  courseCode, enrollmentKey, enrollmentKeyConfirm;
     @FXML
     private TextArea courseDescription;
     @FXML
     private DatePicker startDate, endDate;
+    @FXML
+    private ChoiceBox<String> courseTemplate, programmingLanguage;
+
+    private List<CourseTemplate> courseTemplates = new ArrayList<CourseTemplate>();
 
     private InstructorCoursesPartialController controller;
 
@@ -32,11 +40,43 @@ public class CreateCourseController {
     public void initialize(){
         System.out.println("Create course controller initialized");
 
+        // Set the programming language options
+        programmingLanguage.getItems().clear();
+        programmingLanguage.getItems().add("Java");
+        programmingLanguage.getItems().add("Python");
+
+        Task<Void> getCourseTemplateTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                courseTemplates = new ArrayList<CourseTemplate>(CourseTemplateREST.findByProgrammingLanguage("Java"));
+                return null;
+            }
+        };
+
+        getCourseTemplateTask.setOnSucceeded(ev -> {
+            courseTemplate.setDisable(false);
+            for(CourseTemplate template : courseTemplates){
+                courseTemplate.getItems().add(template.getCourseTitle());
+            }
+        });
+
+        Thread getCourseTemplateThread = new Thread(getCourseTemplateTask);
+        getCourseTemplateThread.setDaemon(true);
+        getCourseTemplateThread.start();
+
+        // Add event listener when select is changed
+        programmingLanguage.setOnAction(ev -> {
+            System.out.println(programmingLanguage.getSelectionModel().getSelectedItem());
+        });
+
+
+        // Disable first while fetching
+        courseTemplate.setDisable(true);
+
         createCourseButton.setDisable(true);
 
         createCourseButton.setOnAction(event -> {
             Course course = new Course();
-            course.setCourseTitle(courseTitle.getText());
             course.setCourseDescription(courseDescription.getText());
             course.setCourseCode(courseCode.getText());
             course.setEnrollmentKey(enrollmentKey.getText());
@@ -89,7 +129,7 @@ public class CreateCourseController {
             createCourseThread.start();
         });
 
-        courseTitle.setOnKeyReleased(this::checkInput);
+//        courseTitle.setOnKeyReleased(this::checkInput);
         courseCode.setOnKeyReleased(this::checkInput);
         courseDescription.setOnKeyReleased(this::checkInput);
         enrollmentKey.setOnKeyReleased(this::checkInput);
@@ -103,7 +143,7 @@ public class CreateCourseController {
     }
 
     private void validate() {
-        if(courseTitle.getText().length() > 0 &&
+        if(
                 courseDescription.getText().length() > 0 &&
                 courseCode.getText().length() > 0 &&
                 enrollmentKey.getText().length() > 0 &&
