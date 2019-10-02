@@ -12,6 +12,7 @@ public class Course {
     private String courseDescription;
     private String courseCode;
     private String enrollmentKey;
+    private String courseProgrammingLanguage;
     private Instructor instructor;
     private Date dateAdded;
     private Date dateModified;
@@ -26,6 +27,14 @@ public class Course {
 
     public long getId() {
         return id;
+    }
+
+    public String getCourseProgrammingLanguage() {
+        return courseProgrammingLanguage;
+    }
+
+    public void setCourseProgrammingLanguage(String courseProgrammingLanguage) {
+        this.courseProgrammingLanguage = courseProgrammingLanguage;
     }
 
     public void setId(long id) {

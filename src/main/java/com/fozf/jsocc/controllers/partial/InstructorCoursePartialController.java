@@ -93,6 +93,8 @@ public class InstructorCoursePartialController {
 
     public void setCourse(Course course) {
         this.course = course;
+        App.currentPartial = course.getCourseTitle();
+
         initializeUI();
     }
 

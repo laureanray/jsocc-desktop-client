@@ -1,5 +1,6 @@
 package com.fozf.jsocc.controllers;
 
+import com.fozf.jsocc.controllers.partial.InstructorCoursePartialController;
 import com.fozf.jsocc.controllers.partial.InstructorCoursesPartialController;
 import com.fozf.jsocc.models.Course;
 import com.fozf.jsocc.utils.App;
@@ -15,6 +16,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -103,8 +106,10 @@ public class InstructorDashboardController {
         TreeItem<String> rootItem = new TreeItem<String>();
         rootItem.setExpanded(true);
 
-        TreeItem<String> javaItem = new TreeItem<>("Java Courses");
-        TreeItem<String> pythonItem = new TreeItem<>("Python Course");
+        Node javaItemIcon = new ImageView(new Image(getClass().getResourceAsStream("/images/java.png")));
+        TreeItem<String> javaItem = new TreeItem<>("Java Courses", javaItemIcon);
+        Node pythonItemIcon = new ImageView(new Image(getClass().getResourceAsStream("/images/python.png")));
+        TreeItem<String> pythonItem = new TreeItem<>("Python Course", pythonItemIcon);
 
         rootItem.getChildren().add(javaItem);
         rootItem.getChildren().add(pythonItem);
@@ -122,6 +127,7 @@ public class InstructorDashboardController {
             for(Course course : courseList){
                 TreeItem<String> item = new TreeItem<>(course.getCourseTitle());
                 item.getChildren().add(new TreeItem<>("Test"));
+
                 javaItem.getChildren().add(item);
             }
         });
@@ -159,6 +165,22 @@ public class InstructorDashboardController {
 
             if (click.getClickCount() == 2) {
                 System.out.println("Double clicked: " + coursesTreeView.getSelectionModel().getSelectedItem().getValue());
+
+                for(Course course : courseList){
+                    if(course.getCourseTitle().equals(coursesTreeView.getSelectionModel().getSelectedItem().getValue())){
+                        // s
+                        System.out.println("tada");
+                        System.out.println(course.getId());
+
+                        try {
+                            ViewBootstrapper view = this.changeUI("instructorCoursePartial");
+                            InstructorCoursePartialController controller = view.getLoader().getController();
+                            controller.setCourse(course);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                }
             }
 
         });
