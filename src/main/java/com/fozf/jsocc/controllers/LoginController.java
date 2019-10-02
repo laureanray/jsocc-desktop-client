@@ -11,8 +11,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -39,6 +41,8 @@ public class LoginController {
     public Text errorText;
     @FXML
     public ImageView statusImage;
+    @FXML
+    public BorderPane borderPane;
 
     private static User user;
 
@@ -52,6 +56,8 @@ public class LoginController {
 
     @FXML
     public void initialize(){
+
+
         System.out.println("Initialize");
         subtitle.setText(App.name);
 
@@ -209,7 +215,7 @@ public class LoginController {
     }
 
     private void checkInputFields(KeyCode code){
-        if(username.getText().isEmpty() || password.getText().isEmpty()){
+        if(username.getText().isEmpty() || password.getText().isEmpty() || serverStatus.getText().equals("No connection.")){
             loginButton.setDisable(true);
         }else{
             loginButton.setDisable(false);

@@ -5,6 +5,7 @@ import com.fozf.jsocc.controllers.dialog.AddExerciseItemController;
 import com.fozf.jsocc.models.Course;
 import com.fozf.jsocc.models.Exercise;
 import com.fozf.jsocc.models.ExerciseItem;
+import com.fozf.jsocc.utils.App;
 import com.fozf.jsocc.utils.ViewBootstrapper;
 import com.fozf.jsocc.utils.error.ErrorREST;
 import com.fozf.jsocc.utils.rest.ExerciseREST;
@@ -39,6 +40,7 @@ public class InstructorCoursePartialController {
 
     @FXML
     public void initialize(){
+
         initializeTables();
         attachEventListeners();
 

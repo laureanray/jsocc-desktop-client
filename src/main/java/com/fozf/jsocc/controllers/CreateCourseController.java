@@ -24,17 +24,18 @@ public class CreateCourseController {
     @FXML
     private TextField  courseCode, enrollmentKey, enrollmentKeyConfirm;
     @FXML
-    private TextArea courseDescription;
-    @FXML
     private DatePicker startDate, endDate;
     @FXML
     private ChoiceBox<String> courseTemplate, programmingLanguage;
+    @FXML
+    private TextArea courseDescription;
 
-    private List<CourseTemplate> courseTemplates = new ArrayList<CourseTemplate>();
+    private List<CourseTemplate> courseTemplates = new ArrayList<>();
 
     private InstructorCoursesPartialController controller;
 
     static Response response;
+
 
     @FXML
     public void initialize(){
@@ -45,28 +46,40 @@ public class CreateCourseController {
         programmingLanguage.getItems().add("Java");
         programmingLanguage.getItems().add("Python");
 
-        Task<Void> getCourseTemplateTask = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                courseTemplates = new ArrayList<CourseTemplate>(CourseTemplateREST.findByProgrammingLanguage("Java"));
-                return null;
-            }
-        };
-
-        getCourseTemplateTask.setOnSucceeded(ev -> {
-            courseTemplate.setDisable(false);
-            for(CourseTemplate template : courseTemplates){
-                courseTemplate.getItems().add(template.getCourseTitle());
-            }
-        });
-
-        Thread getCourseTemplateThread = new Thread(getCourseTemplateTask);
-        getCourseTemplateThread.setDaemon(true);
-        getCourseTemplateThread.start();
+        courseCode.setDisable(true);
 
         // Add event listener when select is changed
         programmingLanguage.setOnAction(ev -> {
-            System.out.println(programmingLanguage.getSelectionModel().getSelectedItem());
+            Task<Void> getCourseTemplateTask = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    courseTemplates = new ArrayList<>(CourseTemplateREST.findByProgrammingLanguage(programmingLanguage.getSelectionModel().getSelectedItem()));
+                    return null;
+                }
+            };
+
+            getCourseTemplateTask.setOnSucceeded(evt -> {
+                courseTemplate.setDisable(false);
+                // Clear first
+                courseTemplate.getItems().clear();
+                for(CourseTemplate template : courseTemplates){
+                    courseTemplate.getItems().add(template.getCourseTitle());
+                }
+            });
+
+            Thread getCourseTemplateThread = new Thread(getCourseTemplateTask);
+            getCourseTemplateThread.setDaemon(true);
+            getCourseTemplateThread.start();
+
+        });
+
+        courseTemplate.setOnAction(ev -> {
+            try {
+                CourseTemplate selected = courseTemplates.get(courseTemplate.getSelectionModel().getSelectedIndex());
+                courseCode.setText(selected.getCourseTemplateCode());
+            } catch(ArrayIndexOutOfBoundsException e){
+                System.out.println("Catch");
+            }
         });
 
 
@@ -77,12 +90,13 @@ public class CreateCourseController {
 
         createCourseButton.setOnAction(event -> {
             Course course = new Course();
-            course.setCourseDescription(courseDescription.getText());
             course.setCourseCode(courseCode.getText());
             course.setEnrollmentKey(enrollmentKey.getText());
             course.setEnrollmentStartDate(Date.valueOf(startDate.getValue()));
             course.setEnrollmentEndDate(Date.valueOf(endDate.getValue()));
             course.setInstructor(App.instructor);
+            course.setCourseDescription(courseDescription.getText());
+            course.setCourseTitle(courseTemplate.getSelectionModel().getSelectedItem());
 
             Task<Void> createCourseTask = new Task<Void>() {
                 @Override
@@ -131,7 +145,6 @@ public class CreateCourseController {
 
 //        courseTitle.setOnKeyReleased(this::checkInput);
         courseCode.setOnKeyReleased(this::checkInput);
-        courseDescription.setOnKeyReleased(this::checkInput);
         enrollmentKey.setOnKeyReleased(this::checkInput);
         enrollmentKeyConfirm.setOnKeyReleased(this::checkInput);
         startDate.setOnAction(this::checkInput);
@@ -144,12 +157,12 @@ public class CreateCourseController {
 
     private void validate() {
         if(
-                courseDescription.getText().length() > 0 &&
                 courseCode.getText().length() > 0 &&
                 enrollmentKey.getText().length() > 0 &&
                 enrollmentKeyConfirm.getText().length() > 0 &&
                 startDate.getValue() != null &&
-                endDate.getValue() != null
+                endDate.getValue() != null &&
+                courseDescription.getText().length() > 0
         ) {
             if(enrollmentKey.getText().equals(enrollmentKeyConfirm.getText())){
                 createCourseButton.setDisable(false);

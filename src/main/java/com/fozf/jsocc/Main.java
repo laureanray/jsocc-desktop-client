@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class Main extends Application {
     private Stage stage;
@@ -16,7 +17,7 @@ public class Main extends Application {
         FXMLLoader loader =  new FXMLLoader(getClass().getResource("/fxml/Login.fxml"));
         Parent root = loader.load();
         primaryStage.setTitle(App.name);
-        primaryStage.setScene(new Scene(root, App.SM_WIDTH, App.SM_HEIGHT));
+        primaryStage.setScene(new Scene(root, 300, 400));
         LoginController controller = loader.getController();
         primaryStage.setOnCloseRequest(e -> controller.close());
         primaryStage.getIcons().add(App.icon);

@@ -49,6 +49,9 @@ public class InstructorCoursesPartialController {
 
     @FXML
     public void initialize(){
+
+        App.currentPartial = "instructorCoursesPartial";
+
         // Update table
         System.out.println("Initialize Partial");
         initializeTable();

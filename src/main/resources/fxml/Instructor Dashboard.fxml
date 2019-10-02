@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.TreeView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -44,49 +49,66 @@
       </GridPane>
    </top>
    <left>
-      <VBox fillWidth="false" maxWidth="200.0" minWidth="200.0" prefHeight="490.0" prefWidth="200.0" styleClass="sidebar" BorderPane.alignment="CENTER">
+      <VBox fillWidth="false" maxWidth="270.0" minWidth="270.0" prefHeight="490.0" prefWidth="270.0" styleClass="sidebar" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="170.0" fitWidth="170.0" pickOnBounds="true" preserveRatio="true">
+            <HBox prefHeight="79.0" prefWidth="303.0">
+               <children>
+                  <ImageView fitHeight="170.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/61ZzsXvJXQL._SX425_.jpg" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="15.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Text fx:id="accountName" strokeType="OUTSIDE" strokeWidth="0.0" text="Accout Name">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="2.0" left="20.0" right="15.0" />
+                           </VBox.margin>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Instructor">
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                        </Text>
+                     </children>
+                  </VBox>
+               </children>
                <VBox.margin>
-                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                  <Insets top="25.0" />
                </VBox.margin>
-               <image>
-                  <Image url="@../images/61ZzsXvJXQL._SX425_.jpg" />
-               </image>
-            </ImageView>
-            <Text fx:id="accountName" strokeType="OUTSIDE" strokeWidth="0.0" text="Accout Name">
-               <font>
-                  <Font size="18.0" />
-               </font>
-               <VBox.margin>
-                  <Insets bottom="2.0" left="20.0" right="15.0" />
-               </VBox.margin>
-            </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Instructor">
-               <VBox.margin>
-                  <Insets left="20.0" />
-               </VBox.margin>
-            </Text>
+            </HBox>
             <Hyperlink fx:id="dashboardLink" maxHeight="1.7976931348623157E308" styleClass="link" text="Dashboard">
                <VBox.margin>
                   <Insets left="15.0" top="15.0" />
                </VBox.margin>
             </Hyperlink>
-            <Hyperlink fx:id="coursesLink" maxHeight="1.7976931348623157E308" styleClass="link" text="Courses">
+            <Accordion prefHeight="278.0" prefWidth="268.0">
+              <panes>
+                <TitledPane fx:id="coursesTitledPane" animated="false" prefWidth="175.0" text="Courses">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="238.0" prefWidth="173.0">
+                           <children>
+                              <TreeView fx:id="coursesTreeView" prefHeight="226.0" prefWidth="268.0" style="-fx-box-border: transparent; -fx-focus-color: transparent; -fx-faint-focus-color: transparent; -fx-border-color: transparent;" />
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </TitledPane>
+                <TitledPane animated="false" text="Students">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="42.0" />
+                  </content>
+                </TitledPane>
+              </panes>
                <VBox.margin>
-                  <Insets left="15.0" />
+                  <Insets bottom="15.0" left="15.0" right="10.0" />
                </VBox.margin>
-            </Hyperlink>
-            <Hyperlink styleClass="link" text="Students">
-               <VBox.margin>
-                  <Insets left="15.0" />
-               </VBox.margin>
-            </Hyperlink>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="© 2019 v0.1.0">
-               <VBox.margin>
-                  <Insets left="20.0" top="100.0" />
-               </VBox.margin>
-            </Text>
+            </Accordion>
          </children>
       </VBox>
    </left>

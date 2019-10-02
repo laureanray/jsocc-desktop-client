@@ -8,13 +8,13 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class App {
-    public static String name = "Java Simulator and Online Code Checker";
-    public static String abbrev = "JSOCC";
+    public static String name = "Code Simulator and Checker";
+    public static String abbrev = "CSC";
     public static int WINDOW_HEIGHT = 540;
     public static int WINDOW_WIDTH = 1200;
     public static int SM_WIDTH = 400;
     public static int SM_HEIGHT = 500;
-    public static int INS_WIDTH = 1000;
+    public static int INS_WIDTH = 900;
     public static int INS_HEIGHT = 490;
     public static int ALERT_WIDTH = 400;
     public static int ALERT_HEIGHT = 200;
@@ -26,7 +26,7 @@ public class App {
     public static Student student;
     public static Instructor instructor;
     public static boolean isStudent = true;
-
+    public static String currentPartial = "";
 
 
 }

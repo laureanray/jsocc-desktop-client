@@ -13,7 +13,8 @@ public class ViewBootstrapper {
         INSIDE,
         SMALL,
         CUSTOM_ALERT,
-        CUSTOM_ALERT_SM
+        CUSTOM_ALERT_SM,
+        LOGIN
     };
 
     public enum Type {
@@ -44,6 +45,8 @@ public class ViewBootstrapper {
             this.scene = new Scene(this.loader.load(), App.ALERT_WIDTH, App.ALERT_HEIGHT);
         }else if(size.equals(size.CUSTOM_ALERT_SM)){
             this.scene = new Scene(this.loader.load(), App.ALERT_WIDTH_SM, App.ALERT_HEIGHT_SM);
+        }else if(size.equals(size.LOGIN)){
+            this.scene = new Scene(this.loader.load(), 300, 400);
         }else {
             this.scene = new Scene(this.loader.load(), App.INS_WIDTH, App.INS_HEIGHT);
         }
