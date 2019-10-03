@@ -67,6 +67,7 @@ public class AddExerciseItemController {
             };
 
             addExerciseItemTask.setOnSucceeded(ev -> {
+                System.out.println(response.getStatus());
                 Stage stage = (Stage) addExerciseItemButton.getScene().getWindow();
                 stage.close();
             });

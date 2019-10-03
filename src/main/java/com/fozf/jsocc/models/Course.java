@@ -121,5 +121,8 @@ public class Course {
         this.exercises = exercises;
     }
 
+    public String getInstructorName(){
+        return (instructor.getFirstName() + " " + instructor.getLastName());
+    }
 
 }

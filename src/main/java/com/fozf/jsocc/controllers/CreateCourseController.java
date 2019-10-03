@@ -33,6 +33,16 @@ public class CreateCourseController {
     private List<CourseTemplate> courseTemplates = new ArrayList<>();
 
     private InstructorCoursesPartialController controller;
+    private InstructorDashboardController dashboardController;
+
+    public InstructorDashboardController getDashboardController() {
+        return dashboardController;
+    }
+
+    public void setDashboardController(InstructorDashboardController dashboardController) {
+        this.dashboardController = dashboardController;
+        System.out.println("Dashboard in the inside is set");
+    }
 
     static Response response;
 
@@ -46,7 +56,7 @@ public class CreateCourseController {
         programmingLanguage.getItems().add("Java");
         programmingLanguage.getItems().add("Python");
 
-        courseCode.setDisable(true);
+//        courseCode.setDisable(true);
 
         // Add event listener when select is changed
         programmingLanguage.setOnAction(ev -> {
@@ -97,7 +107,7 @@ public class CreateCourseController {
             course.setInstructor(App.instructor);
             course.setCourseDescription(courseDescription.getText());
             course.setCourseTitle(courseTemplate.getSelectionModel().getSelectedItem());
-
+            course.setCourseProgrammingLanguage(programmingLanguage.getSelectionModel().getSelectedItem());
             Task<Void> createCourseTask = new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
@@ -125,6 +135,13 @@ public class CreateCourseController {
                     alert.setContentText("Course has been created");
                     alert.showAndWait();
                     stage.close();
+
+                    // Reinitialzie the dashboard treeview
+                    if(this.dashboardController != null){
+                        this.dashboardController.initializeCoursesTreeView();
+                    }else{
+                        System.out.println("NULL!");
+                    }
                 }else{
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error");

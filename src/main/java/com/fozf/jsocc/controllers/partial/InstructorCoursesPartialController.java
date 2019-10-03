@@ -58,19 +58,21 @@ public class InstructorCoursesPartialController {
         updateTableAsync();
         attachEventListeners();
 
-        try {
-            createCourseView = new ViewBootstrapper("CourseCreate", ViewBootstrapper.Size.SMALL,  ViewBootstrapper.Type.NORMAL);
-            stage  = createCourseView.getStage();
-            stage.setOnCloseRequest(ev -> stage.close());
-            CreateCourseController controller = createCourseView.getLoader().getController();
-            controller.setController(this);
-            stage.initModality(Modality.APPLICATION_MODAL);
-        } catch (IOException e){
-            e.printStackTrace();
-            System.out.println("Unable to load create new courses");
-        }
+
 
         createNewCourseButton.setOnAction(e -> {
+            try {
+                createCourseView = new ViewBootstrapper("CourseCreate", ViewBootstrapper.Size.SMALL,  ViewBootstrapper.Type.NORMAL);
+                stage  = createCourseView.getStage();
+                stage.setOnCloseRequest(ev -> stage.close());
+                CreateCourseController controller = createCourseView.getLoader().getController();
+                controller.setDashboardController(dashboardController);
+                controller.setController(this);
+                stage.initModality(Modality.APPLICATION_MODAL);
+            } catch (IOException ex){
+                ex.printStackTrace();
+                System.out.println("Unable to load create new courses");
+            }
             stage.showAndWait();
         });
 

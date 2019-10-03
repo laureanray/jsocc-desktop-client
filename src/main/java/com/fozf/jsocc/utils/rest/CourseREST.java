@@ -37,6 +37,15 @@ public class CourseREST {
                 .get(new GenericType<List<Course>>(){});
     }
 
+    public static List<Course> findAll(){
+        return client
+                .target(REST_URI)
+                .path("")
+                .request(MediaType.APPLICATION_JSON)
+                .get(new GenericType<List<Course>>(){});
+    }
+
+
     public static Course deleteCourse(Course course) {
         client.target(REST_URI)
                 .path(String.valueOf(course.getId()))
@@ -44,6 +53,8 @@ public class CourseREST {
                 .delete();
         return course;
     };
+
+
 
 
 

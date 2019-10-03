@@ -16,11 +16,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="300.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="com.fozf.jsocc.controllers.LoginController">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fozf.jsocc.controllers.LoginController">
    <top>
-      <VBox maxWidth="-Infinity" minWidth="-Infinity" prefHeight="77.0" prefWidth="300.0" BorderPane.alignment="CENTER">
+      <VBox maxWidth="-Infinity" minWidth="-Infinity" prefHeight="41.0" prefWidth="300.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
-            <Insets bottom="25.0" top="35.0" />
+            <Insets bottom="10.0" top="35.0" />
          </BorderPane.margin>
          <children>
             <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="53.0" prefWidth="300.0">
@@ -48,27 +48,28 @@
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints maxHeight="30.0" minHeight="40.0" prefHeight="0.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="60.0" minHeight="29.0" prefHeight="29.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="25.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="25.0" vgrow="SOMETIMES" />
           <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="25.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="25.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="25.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="25.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Text fill="#464646" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" wrappingWidth="88.291015625" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1">
+            <Text fill="#464646" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" wrappingWidth="88.291015625" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="5.0" />
                </GridPane.margin></Text>
-            <Text fill="#464646" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" wrappingWidth="108.951171875" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+            <Text fill="#464646" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" wrappingWidth="108.951171875" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets left="5.0" />
                </GridPane.margin></Text>
-            <TextField fx:id="username" promptText="Username" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <TextField fx:id="username" promptText="Username" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="5.0" />
                </GridPane.margin></TextField>
@@ -80,33 +81,31 @@
                   <Insets bottom="10.0" />
                </GridPane.margin>
             </Text>
-            <PasswordField fx:id="password" promptText="Password" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <PasswordField fx:id="password" promptText="Password" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <GridPane.margin>
                   <Insets left="5.0" />
                </GridPane.margin></PasswordField>
-            <Button fx:id="loginButton" disable="true" mnemonicParsing="false" prefHeight="25.0" prefWidth="339.0" text="Sign In" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <Button fx:id="loginButton" disable="true" mnemonicParsing="false" prefHeight="25.0" prefWidth="339.0" text="Sign In" GridPane.columnIndex="1" GridPane.rowIndex="6">
                <GridPane.margin>
                   <Insets left="5.0" top="5.0" />
                </GridPane.margin></Button>
-            <Hyperlink fx:id="registerLink" text="Don't have an account? Click here." GridPane.columnIndex="1" GridPane.rowIndex="6">
+            <Hyperlink fx:id="registerLink" text="Don't have an account? Click here." GridPane.columnIndex="1" GridPane.rowIndex="7">
                <GridPane.margin>
                   <Insets left="2.0" />
                </GridPane.margin></Hyperlink>
-            <Text fx:id="serverStatus" fill="#464646" strokeType="OUTSIDE" strokeWidth="0.0" text="Checking" GridPane.columnIndex="1" GridPane.rowIndex="7">
+            <Text fx:id="serverStatus" fill="#464646" strokeType="OUTSIDE" strokeWidth="0.0" text="Checking" GridPane.columnIndex="1" GridPane.rowIndex="8">
                <GridPane.margin>
                   <Insets left="30.0" />
                </GridPane.margin></Text>
-            <Hyperlink fx:id="checkLink" text="Check" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <Text fx:id="errorText" fill="#c90c0c" strokeType="OUTSIDE" strokeWidth="0.0" text="Error" visible="false" GridPane.columnIndex="1" />
-             <ImageView fx:id="statusImage" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="7">
+            <Hyperlink fx:id="checkLink" text="Check" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+            <Text fx:id="errorText" fill="#c90c0c" strokeType="OUTSIDE" strokeWidth="0.0" text="Error" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets left="5.0" />
+               </GridPane.margin></Text>
+             <ImageView fx:id="statusImage" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="8">
                <GridPane.margin>
                   <Insets left="5.0" />
                </GridPane.margin></ImageView>
-            <Text fill="#464646" strokeType="OUTSIDE" strokeWidth="0.0" text="ver 0.0.1" GridPane.columnIndex="1" GridPane.rowIndex="8">
-               <GridPane.margin>
-                  <Insets left="5.0" />
-               </GridPane.margin>
-            </Text>
          </children>
       </GridPane>
    </center>

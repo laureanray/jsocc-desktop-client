@@ -1,6 +1,8 @@
 package com.fozf.jsocc.models;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.List;
+
 @XmlRootElement
 public class Student extends User{
     private long id;
@@ -9,6 +11,7 @@ public class Student extends User{
     private String email;
     private String password;
     private String username;
+    private List<Course> courses;
     private boolean instructor;
 
     public Student() {
@@ -60,5 +63,21 @@ public class Student extends User{
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
+    }
+
+    public boolean isInstructor() {
+        return instructor;
+    }
+
+    public void setInstructor(boolean instructor) {
+        this.instructor = instructor;
     }
 }

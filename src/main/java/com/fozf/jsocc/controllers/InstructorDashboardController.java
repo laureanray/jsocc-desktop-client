@@ -3,6 +3,7 @@ package com.fozf.jsocc.controllers;
 import com.fozf.jsocc.controllers.partial.InstructorCoursePartialController;
 import com.fozf.jsocc.controllers.partial.InstructorCoursesPartialController;
 import com.fozf.jsocc.models.Course;
+import com.fozf.jsocc.models.Exercise;
 import com.fozf.jsocc.utils.App;
 import com.fozf.jsocc.utils.ViewBootstrapper;
 import com.fozf.jsocc.utils.rest.CourseREST;
@@ -99,7 +100,7 @@ public class InstructorDashboardController {
         initializeCoursesTreeView();
     }
 
-    void initializeCoursesTreeView(){
+    public void initializeCoursesTreeView(){
 
 //        courseList = new ArrayList<>();
 
@@ -126,15 +127,24 @@ public class InstructorDashboardController {
             // Populate the tree view here
             for(Course course : courseList){
                 TreeItem<String> item = new TreeItem<>(course.getCourseTitle());
-                item.getChildren().add(new TreeItem<>("Test"));
 
-                javaItem.getChildren().add(item);
+                for(Exercise exercise : course.getExercises()){
+                    TreeItem<String> exerciseItem = new TreeItem<>(exercise.getExerciseTitle());
+                    item.getChildren().add(exerciseItem);
+                }
+
+                if(course.getCourseProgrammingLanguage().equals("Java")){
+                    javaItem.getChildren().add(item);
+                }else{
+                    pythonItem.getChildren().add(item);
+                }
             }
         });
 
         getCourseTask.setOnFailed(e -> {
             System.out.println(e.getSource().getMessage());
             System.out.println(e.toString());
+            System.out.println(e.getEventType().getName());
             System.out.println("failed");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Failed");

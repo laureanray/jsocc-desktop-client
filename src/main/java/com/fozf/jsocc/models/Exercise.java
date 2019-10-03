@@ -13,6 +13,15 @@ public class Exercise {
     private Date exerciseDeadline;
     private Date dateAdded;
     private Date dateModified;
+    private boolean isCompleted;
+
+    public boolean isCompleted() {
+        return isCompleted;
+    }
+
+    public void setCompleted(boolean completed) {
+        isCompleted = completed;
+    }
 
     public Exercise(){}
 

@@ -2,6 +2,7 @@ package com.fozf.jsocc.utils.rest;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fozf.jsocc.models.Course;
 import com.fozf.jsocc.models.LoginForm;
 import com.fozf.jsocc.models.Student;
 
@@ -31,7 +32,7 @@ public class StudentREST {
     public static Student getStudentByUsername(String username){
         return client
                 .target(REST_URI)
-                .path("find/" + username)
+                .path("/find/" + username)
                 .request(MediaType.APPLICATION_JSON)
                 .get(Student.class);
     }
@@ -68,5 +69,12 @@ public class StudentREST {
                 .path("/login")
                 .request(MediaType.APPLICATION_JSON)
                 .post(Entity.entity(loginForm, MediaType.APPLICATION_JSON));
+    }
+
+    public static Response enrollStudent(String studentUserName, long courseId){
+        return client.target(REST_URI)
+            .path("/enroll/" + studentUserName + "/" + String.valueOf(courseId))
+            .request(MediaType.APPLICATION_JSON)
+            .post(Entity.entity(studentUserName, MediaType.APPLICATION_JSON));
     }
 }

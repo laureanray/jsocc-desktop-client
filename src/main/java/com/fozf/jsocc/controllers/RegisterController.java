@@ -38,6 +38,8 @@ public class RegisterController {
     public Button registerBtn;
     @FXML
     public Text errorText;
+    @FXML
+    public Text registerAsText;
 
     @FXML
     public void initialize(){
@@ -47,9 +49,11 @@ public class RegisterController {
             if(newValue) {
                 System.out.println("Checked");
                 registerBtn.setText("Register as Instructor");
+                registerAsText.setText("Register as Instructor");
                 isStudent.set(false);
             }else {
                 registerBtn.setText("Register as Student");
+                registerAsText.setText("Register as Student");
                 isStudent.set(true);
             }
         });
@@ -138,13 +142,8 @@ public class RegisterController {
                         thisStage.close();
 
                         try {
-                            ViewBootstrapper vb = new ViewBootstrapper("Login", ViewBootstrapper.Size.SMALL,  ViewBootstrapper.Type.NORMAL);
-                            LoginController lc = (LoginController) vb.getLoader().getController();
-                            lc.username.setText(username.getText());
-                            lc.password.setText(password.getText());
-                            lc.loginButton.setDisable(false);
+                            ViewBootstrapper vb = new ViewBootstrapper("Login", ViewBootstrapper.Size.LOGIN,  ViewBootstrapper.Type.NORMAL);
                             vb.getStage().show();
-
                         } catch (IOException ex) {
                             ex.printStackTrace();
                         }

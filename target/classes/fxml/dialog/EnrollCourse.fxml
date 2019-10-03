@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fozf.jsocc.controllers.dialog.EnrollCourseController">
+   <children>
+      <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Course To Enroll">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <TextField fx:id="searchCourse" layoutX="14.0" layoutY="67.0" prefHeight="25.0" prefWidth="205.0" promptText="Search Course" />
+      <Text layoutX="14.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search" />
+      <TableView fx:id="courseTableView" layoutX="14.0" layoutY="104.0" prefHeight="379.0" prefWidth="375.0" />
+      <Button fx:id="enrollButton" layoutX="227.0" layoutY="67.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="160.0" text="Enroll" />
+   </children>
+</AnchorPane>

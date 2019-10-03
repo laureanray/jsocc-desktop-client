@@ -30,8 +30,8 @@
             <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="120.0" minHeight="30.0" prefHeight="120.0" vgrow="SOMETIMES" />
           <RowConstraints maxHeight="30.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="120.0" minHeight="30.0" prefHeight="120.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
@@ -41,23 +41,15 @@
                   <ChoiceBox fx:id="programmingLanguage" prefHeight="25.0" prefWidth="400.0" />
                </children>
             </HBox>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Course Code" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <ChoiceBox fx:id="courseTemplate" prefHeight="25.0" prefWidth="242.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
             <TextField fx:id="courseCode" promptText="Course Code" GridPane.columnIndex="2" GridPane.rowIndex="3" />
             <PasswordField fx:id="enrollmentKey" promptText="Minimum of 8 characters" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-            <PasswordField fx:id="enrollmentKeyConfirm" promptText="Re-type Enrollment Key" GridPane.columnIndex="2" GridPane.rowIndex="6" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Enrollment Key" wrappingWidth="101.951171875" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Create Course" wrappingWidth="136.13671875" GridPane.columnIndex="1" GridPane.valignment="CENTER">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Text>
-            <Button fx:id="createCourseButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="241.0" text="Create Course" GridPane.columnIndex="2" GridPane.rowIndex="8">
+            <PasswordField fx:id="enrollmentKeyConfirm" promptText="Re-type Enrollment Key" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+            <TextArea fx:id="courseDescription" prefHeight="100.0" prefWidth="206.0" GridPane.columnIndex="2" GridPane.rowIndex="6">
                <GridPane.margin>
-                  <Insets top="6.0" />
-               </GridPane.margin></Button>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Course Template" wrappingWidth="92.73046875" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-            <Text fx:id="errorText" fill="#d01212" strokeType="OUTSIDE" strokeWidth="0.0" text="Error" visible="false" GridPane.columnIndex="2" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Enrollment Duration" wrappingWidth="108.951171875" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                  <Insets bottom="5.0" top="5.0" />
+               </GridPane.margin>
+            </TextArea>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="7">
                <children>
                   <DatePicker fx:id="startDate" promptText="Start Date">    
@@ -72,14 +64,22 @@
                   </DatePicker>
                </children>
             </HBox>
-            <ChoiceBox fx:id="courseTemplate" prefHeight="25.0" prefWidth="242.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Programming Language" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <TextArea fx:id="courseDescription" prefHeight="100.0" prefWidth="206.0" GridPane.columnIndex="2" GridPane.rowIndex="5">
+            <Button fx:id="createCourseButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="241.0" text="Create Course" GridPane.columnIndex="2" GridPane.rowIndex="8">
                <GridPane.margin>
-                  <Insets bottom="5.0" top="5.0" />
-               </GridPane.margin>
-            </TextArea>
+                  <Insets top="6.0" />
+               </GridPane.margin></Button>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Course Code" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Enrollment Key" wrappingWidth="101.951171875" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Create Course" wrappingWidth="136.13671875" GridPane.columnIndex="1" GridPane.valignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Course Template" wrappingWidth="92.73046875" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+            <Text fx:id="errorText" fill="#d01212" strokeType="OUTSIDE" strokeWidth="0.0" text="Error" visible="false" GridPane.columnIndex="2" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Enrollment Duration" wrappingWidth="108.951171875" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Programming Language" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description" GridPane.columnIndex="1" GridPane.rowIndex="6" />
          </children>
          <BorderPane.margin>
             <Insets top="35.0" />

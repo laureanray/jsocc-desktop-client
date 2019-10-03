@@ -13,6 +13,7 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Modality;
@@ -32,6 +33,9 @@ public class InstructorCoursePartialController {
     private Button addExerciseButton, addAssignmentButton, addMaterialButton, addExerciseItemButton;
 
     @FXML
+    private VBox exerciseDeatilsVbox;
+
+    @FXML
     private TableView exercisesTableView, exerciseItemsTable;
 
     private List<Exercise> exercises;
@@ -43,6 +47,10 @@ public class InstructorCoursePartialController {
 
         initializeTables();
         attachEventListeners();
+
+        // hide the vbox first
+
+        exerciseDeatilsVbox.setVisible(false);
 
         addExerciseButton.setOnAction(event -> {
             try {
@@ -89,6 +97,8 @@ public class InstructorCoursePartialController {
         exerciseTitle.setText(selected.getExerciseTitle());
         loadListIntoExerciseItemsTable(selected.getExerciseItems());
         selectedExercise = selected;
+        exerciseDeatilsVbox.setVisible(true);
+
     }
 
     public void setCourse(Course course) {
