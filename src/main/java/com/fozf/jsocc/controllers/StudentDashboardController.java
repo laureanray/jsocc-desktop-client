@@ -1,9 +1,9 @@
 package com.fozf.jsocc.controllers;
 
-import com.fozf.jsocc.controllers.partial.InstructorCoursePartialController;
-import com.fozf.jsocc.controllers.partial.InstructorCoursesPartialController;
-import com.fozf.jsocc.controllers.partial.StudentCoursesPartialController;
+import com.fozf.jsocc.controllers.dialog.AccountSettingsController;
+import com.fozf.jsocc.controllers.partial.*;
 import com.fozf.jsocc.models.Course;
+import com.fozf.jsocc.models.Exercise;
 import com.fozf.jsocc.utils.App;
 import com.fozf.jsocc.utils.ViewBootstrapper;
 import com.fozf.jsocc.utils.rest.CourseREST;
@@ -21,6 +21,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -40,6 +42,9 @@ public class StudentDashboardController {
     public MenuItem logoutMenuItem;
 
     @FXML
+    public MenuItem accountSettingsMenuItem;
+
+    @FXML
     public Hyperlink dashboardLink;
 
     @FXML
@@ -51,6 +56,9 @@ public class StudentDashboardController {
     @FXML
     public BorderPane rootPane;
 
+    @FXML
+    public Text accountName;
+
 
     public StudentDashboardController(){
         if(App.student == null || !App.isStudent){
@@ -61,15 +69,20 @@ public class StudentDashboardController {
     @FXML
     public void initialize(){
 
+        accountName.setText(App.student.getFirstName() + " " + App.student.getLastName());
+
         System.out.println("Login student: ");
         System.out.println(App.student.getFirstName());
         accountMenu.setText(App.student.getFirstName() + " " + App.student.getLastName());
         logoutMenuItem.setOnAction(this::showLogoutDialog);
+        accountSettingsMenuItem.setOnAction(this::showAccountSettings);
 
 
         dashboardLink.setOnAction(e -> {
             try {
-                ViewBootstrapper view = changeUI("instructorDashboardPartial");
+                ViewBootstrapper view = changeUI("studentDashboardPartial");
+                StudentDashboardPartialController controller = view.getLoader().getController();
+                controller.setStudentDashboardController(this);
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -147,8 +160,17 @@ public class StudentDashboardController {
         }else{
             e.consume();
         }
+    }
 
-
+    private void showAccountSettings(Event e) {
+        try {
+            ViewBootstrapper vb = new ViewBootstrapper("AccountSettings", ViewBootstrapper.Size.LOGIN, ViewBootstrapper.Type.NORMAL);
+            AccountSettingsController controller = vb.getLoader().getController();
+            vb.getStage().initModality(Modality.APPLICATION_MODAL);
+            vb.getStage().showAndWait();
+        } catch(IOException ex){
+            ex.printStackTrace();
+        }
     }
 
     public ViewBootstrapper changeUI(String filename) throws IOException {
@@ -200,7 +222,11 @@ public class StudentDashboardController {
             System.out.println("Students courses");
             for(Course course : App.student.getCourses()){
                 TreeItem<String> item = new TreeItem<>(course.getCourseTitle());
-                item.getChildren().add(new TreeItem<>("Test"));
+
+                for(Exercise exercise : course.getExercises()){
+                    TreeItem<String> exerciseItem = new TreeItem<>(exercise.getExerciseTitle());
+                    item.getChildren().add(exerciseItem);
+                }
 
                 if(course.getCourseProgrammingLanguage().equals("Java")){
                     javaItem.getChildren().add(item);
@@ -223,50 +249,44 @@ public class StudentDashboardController {
 
         updateUserDataThread.setDaemon(true);
         updateUserDataThread.start();
-//        coursesTitledPane.addEventHandler(MouseEvent.MOUSE_CLICKED, ev -> {
-//            // Load the partial if not loaded in the scene.
-//            if(!App.currentPartial.equals("instructorCoursesPartial")){
-//                try {
-//                    ViewBootstrapper view = changeUI("instructorCoursesPartial");
-//                    InstructorCoursesPartialController controller = view.getLoader().getController();
-//                    controller.setDashboardController(this);
-//                } catch (IOException ex) {
-//                    ex.printStackTrace();
-//                }
-//            }
-//        });
-//
-//
-//        coursesTreeView.setOnMouseClicked(click -> {
-//
-//            if (click.getClickCount() == 2) {
-//                System.out.println("Double clicked: " + coursesTreeView.getSelectionModel().getSelectedItem().getValue());
-//
-//                for(Course course : courseList){
-//                    if(course.getCourseTitle().equals(coursesTreeView.getSelectionModel().getSelectedItem().getValue())){
-//                        // s
-//                        System.out.println("tada");
-//                        System.out.println(course.getId());
-//
-//                        try {
-//                            ViewBootstrapper view = this.changeUI("instructorCoursePartial");
-//                            InstructorCoursePartialController controller = view.getLoader().getController();
-//                            controller.setCourse(course);
-//                        } catch (IOException ex) {
-//                            ex.printStackTrace();
-//                        }
-//                    }
-//                }
-//            }
+        coursesTitledPane.addEventHandler(MouseEvent.MOUSE_CLICKED, ev -> {
+            // Load the partial if not loaded in the scene.
+            if(!App.currentPartial.equals("studentCoursesPartial")){
+                try {
+                    ViewBootstrapper view = changeUI("studentCoursesPartial");
+                    StudentCoursesPartialController controller = view.getLoader().getController();
+                    controller.setDashboardController(this);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
 
-//        });
-//        coursesTreeView.setShowRoot(false);
-//        coursesTreeView.setRoot(rootItem);
+        coursesTreeView.setOnMouseClicked(click -> {
+
+            if (click.getClickCount() == 2) {
+                System.out.println("Double clicked: " + coursesTreeView.getSelectionModel().getSelectedItem().getValue());
+
+                for(Course course : App.student.getCourses()){
+                    if(course.getCourseTitle().equals(coursesTreeView.getSelectionModel().getSelectedItem().getValue())){
+                        System.out.println("tada");
+                        System.out.println(course.getId());
+
+                        try {
+                            ViewBootstrapper view = this.changeUI("studentCoursePartial");
+                            StudentCoursePartialController controller = view.getLoader().getController();
+                            controller.setCourse(course);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+
+                    }
+                }
+            }
+
+        });
 
         coursesTreeView.setShowRoot(false);
         coursesTreeView.setRoot(rootItem);
-
     }
-
-
 }

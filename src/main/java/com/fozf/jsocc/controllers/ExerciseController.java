@@ -41,8 +41,6 @@ public class ExerciseController {
     private String classPath = "temp\\";
     private String sourceCode;
 
-
-
     public void setStage(Stage stage) {
         this.stage = stage;
     }

@@ -31,14 +31,14 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="header_text" text="JSOCC">
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="header_text" text="CCS">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>
                 </Text>
                 <MenuButton fx:id="accountMenu" mnemonicParsing="false" styleClass="name" text="Accout Name" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Account Settings" />
+                        <MenuItem fx:id="accountSettingsMenuItem" mnemonicParsing="false" text="Account Settings" />
                         <MenuItem fx:id="logoutMenuItem" mnemonicParsing="false" text="Logout" />
                     </items>
                     <font>
@@ -71,7 +71,7 @@
                                         <Insets bottom="2.0" left="20.0" right="15.0" />
                                     </VBox.margin>
                                 </Text>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Instructor">
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Student">
                                     <VBox.margin>
                                         <Insets left="20.0" />
                                     </VBox.margin>

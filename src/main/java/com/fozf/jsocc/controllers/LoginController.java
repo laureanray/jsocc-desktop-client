@@ -201,8 +201,6 @@ public class LoginController {
             loginThread.start();
          });
 
-
-
         username.setOnKeyReleased(e -> checkInputFields(e.getCode()));
         password.setOnKeyReleased(e -> checkInputFields(e.getCode()));
 

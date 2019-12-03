@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox maxHeight="490.0" maxWidth="900.0" minHeight="490.0" minWidth="900.0" prefHeight="490.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fozf.jsocc.controllers.partial.StudentExercisePartialController">
+   <children>
+      <Text fill="#2c84dc" strokeType="OUTSIDE" strokeWidth="0.0" text="Exercise">
+         <font>
+            <Font size="20.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="10.0" />
+         </VBox.margin>
+      </Text>
+      <ScrollPane fx:id="scrollPane" maxHeight="443.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="427.0" prefWidth="872.0" style="-fx-box-border: transparent; -fx-focus-color: transparent; -fx-faint-focus-color: transparent; -fx-border-color: transparent;">
+         <VBox.margin>
+            <Insets left="15.0" right="5.0" />
+         </VBox.margin>
+         <content>
+            <VBox prefHeight="422.0" prefWidth="865.0">
+               <children>
+                  <Text fx:id="exerciseTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="Exercise Title">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="5.0" top="5.0" />
+                     </VBox.margin>
+                  </Text>
+                  <Text fx:id="exerciseDescription" strokeType="OUTSIDE" strokeWidth="0.0" text="Exercise Description" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Exercise Items">
+                     <VBox.margin>
+                        <Insets top="15.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Text>
+                  <ListView fx:id="exerciseItemsListView" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="331.0" prefWidth="243.0">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                  </ListView>
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </children>
+</VBox>

@@ -8,8 +8,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class App {
-    public static String name = "Code Simulator and Checker";
-    public static String abbrev = "CSC";
+    public static String name = "Code Checker and Simulator";
+    public static String abbrev = "CCS";
     public static int WINDOW_HEIGHT = 540;
     public static int WINDOW_WIDTH = 1200;
     public static int SM_WIDTH = 400;
@@ -27,6 +27,4 @@ public class App {
     public static Instructor instructor;
     public static boolean isStudent = true;
     public static String currentPartial = "";
-
-
 }

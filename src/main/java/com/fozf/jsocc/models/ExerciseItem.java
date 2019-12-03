@@ -15,6 +15,7 @@ public class ExerciseItem {
     private int points;
     private Exercise exercise;
     private List<TestCase> testCases = new ArrayList<>();
+    private boolean isCompleted;
 
     public ExerciseItem(){}
 
@@ -65,4 +66,13 @@ public class ExerciseItem {
     public void setTestCases(List<TestCase> testCases) {
         this.testCases = testCases;
     }
+
+    public boolean isCompleted() {
+        return isCompleted;
+    }
+
+    public void setCompleted(boolean completed) {
+        isCompleted = completed;
+    }
+
 }

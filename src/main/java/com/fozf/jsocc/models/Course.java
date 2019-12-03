@@ -19,6 +19,15 @@ public class Course {
     private Date enrollmentStartDate;
     private Date enrollmentEndDate;
 
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
+
+    private boolean completed;
     private List<Exercise> exercises = new ArrayList<>();
 
     public Course(){
