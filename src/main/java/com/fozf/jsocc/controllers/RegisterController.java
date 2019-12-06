@@ -43,6 +43,7 @@ public class RegisterController {
 
     @FXML
     public void initialize(){
+
         subtitle.setText(App.name);
         AtomicBoolean isStudent = new AtomicBoolean(true);
         checkbox.selectedProperty().addListener((observable, oldValue, newValue) -> {

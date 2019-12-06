@@ -65,9 +65,19 @@ public class LoginController {
             System.out.println("Register clicked");
             try {
                 ViewBootstrapper vb = new ViewBootstrapper("Register", ViewBootstrapper.Size.SMALL,   ViewBootstrapper.Type.NORMAL);
-                vb.getStage().show();
+                Stage registerStage = vb.getStage();
+
                 Stage thisStage = (Stage) registerLink.getScene().getWindow();
                 thisStage.close();
+
+                // Add close request callback
+                registerStage.setOnCloseRequest(ecv -> {
+                    thisStage.show();
+                });
+
+                registerStage.show();
+
+
             } catch (IOException err) {
                 System.out.println("Error");
                 err.printStackTrace();
